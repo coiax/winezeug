@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/705/trunk/appinstall/examples
+END
+standalone.ahk
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/513/trunk/appinstall/examples/standalone.ahk
+END
+HOWTO.txt
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/705/trunk/appinstall/examples/HOWTO.txt
+END
+installer.ahk
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/513/trunk/appinstall/examples/installer.ahk
+END

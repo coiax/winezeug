@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/!svn/ver/889/trunk/testsuites/firefox
+END
+firefox-download-and-build.sh
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/889/trunk/testsuites/firefox/firefox-download-and-build.sh
+END
+wine-part1.sh
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/889/trunk/testsuites/firefox/wine-part1.sh
+END
+start-msvc8-wine.bat
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/889/trunk/testsuites/firefox/start-msvc8-wine.bat
+END
+wine-part3.sh
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/889/trunk/testsuites/firefox/wine-part3.sh
+END

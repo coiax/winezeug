@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/1647/trunk/thumbnailer/gnome-exe-thumbnailer-0.7/debian
+END
+gnome-exe-thumbnailer.install
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/1647/trunk/thumbnailer/gnome-exe-thumbnailer-0.7/debian/gnome-exe-thumbnailer.install
+END
+dirs
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/1647/trunk/thumbnailer/gnome-exe-thumbnailer-0.7/debian/dirs
+END
+compat
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/1647/trunk/thumbnailer/gnome-exe-thumbnailer-0.7/debian/compat
+END
+changelog
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/1647/trunk/thumbnailer/gnome-exe-thumbnailer-0.7/debian/changelog
+END
+docs
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/1647/trunk/thumbnailer/gnome-exe-thumbnailer-0.7/debian/docs
+END
+copyright
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/1647/trunk/thumbnailer/gnome-exe-thumbnailer-0.7/debian/copyright
+END
+rules
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/1647/trunk/thumbnailer/gnome-exe-thumbnailer-0.7/debian/rules
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/1647/trunk/thumbnailer/gnome-exe-thumbnailer-0.7/debian/README
+END
+control
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/!svn/ver/1647/trunk/thumbnailer/gnome-exe-thumbnailer-0.7/debian/control
+END

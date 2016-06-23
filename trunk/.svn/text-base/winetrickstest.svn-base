@@ -1,0 +1,258 @@
+#!/bin/sh
+# There's a lot of stuff here that probably doesn't need to be tested, e.g., 
+# setting dlls to native, and different windows versions. It doesn't hurt to test
+# and may find weird problems. Plus, that way we can test every function.
+
+set -ex
+
+rm -rf $HOME/.winetrickscache $HOME/.cache/winetricks
+# Default to directory with spaces, just to make things harder
+WINEPREFIX="${WINEPREFIX:-$HOME/.wine for winetrickstest}"
+export WINEPREFIX
+
+test_failed()
+{
+    echo "$1 failed"
+    exit 1
+}
+
+for verb in \
+    7zip \
+    adobeair \
+    art2kmin \
+    atmlib \
+    autohotkey \
+    baekmuk \
+    cmake \
+    colorprofile \
+    comctl32 \
+    comctl32.ocx \
+    comdlg32.ocx \
+    corefonts \
+    crypt32 \
+    d3dx9 \
+    d3dx9_28 \
+    d3dx9_36 \
+    d3dx10 \
+    d3dxof \
+    devenum \
+    dinput8 \
+    directmusic \
+    directplay \
+    dotnet11 \
+    dotnet20 \
+    dotnet20sp2 \
+    dotnet30 \
+    droid \
+    dsound \
+    dxsdk_nov2006 \
+    eufonts \
+    ffdshow \
+    firefox \
+    flash \
+    fm20 \
+    fontfix \
+    fontsmooth-bgr \
+    fontsmooth-disable \
+    fontsmooth-gray \
+    fontsmooth-rgb \
+    gdiplus \
+    gecko-dbg \
+    gecko \
+    gfw \
+    glut \
+    hosts \
+    ie6 \
+    jet40 \
+    liberation \
+    lucida \
+    mdac25 \
+    mdac27 \
+    mdac28 \
+    mfc40 \
+    mfc42 \
+    mingw-gdb \
+    mingw \
+    mono26 \
+    mono28 \
+    mozillabuild \
+    mpc \
+    msasn1 \
+    mshflxgd \
+    msi2 \
+    msls31 \
+    msmask \
+    mspaint \
+    msscript \
+    msxml3 \
+    msxml4 \
+    msxml6 \
+    ogg \
+    opensymbol \
+    openwatcom \
+    pdh \
+    physx \
+    quartz \
+    quicktime72 \
+    quicktime76 \
+    riched20 \
+    riched30 \
+    richtx32 \
+    safari \
+    secur32 \
+    shockwave \
+    steam \
+    tahoma \
+    takao \
+    unifont \
+    usp10 \
+    utorrent \
+    vb2run \
+    vb3run \
+    vb4run \
+    vb5run \
+    vb6run \
+    vcrun2003 \
+    vcrun2005 \
+    vcrun2008 \
+    vcrun2010 \
+    vcrun6 \
+    vcrun6sp6 \
+    vjrun20 \
+    vlc \
+    wenquanyi \
+    winhttp \
+    wininet \
+    wme9 \
+    wmi \
+    wmp9 \
+    wmp10 \
+    wsh56 \
+    wsh56js \
+    wsh56vb \
+    xact \
+    xinput \
+    xmllite \
+    xvid \
+    alldlls=builtin \
+    alldlls=default \
+    allfonts \
+    ddr=gdi \
+    ddr=opengl \
+    dsoundbug9612 \
+    forcemono \
+    glsl-disable \
+    glsl-enable \
+    heapcheck \
+    multisampling=enabled \
+    multisampling=disabled \
+    native_mdac \
+    native_oleaut32 \
+    orm=backbuffer \
+    orm=fbo \
+    rtlm=auto \
+    rtlm=disabled \
+    rtlm=readdraw \
+    rtlm=readtex \
+    rtlm=texdraw \
+    rtlm=textex \
+    sandbox \
+    sound=alsa \
+    sound=coreaudio \
+    sound=esd \
+    sound=jack \
+    sound=nas \
+    sound=oss \
+    sound=disabled \
+    strictdrawordering=enabled \
+    strictdrawordering=disabled \
+    nt40 \
+    vd=off \
+    vd=1024x768 \
+    win98 \
+    win2k \
+    winxp \
+    vista \
+    win7 \
+    winver= \
+    volnum \
+    mwo=force \
+    mwo=enabled \
+    mwo=disable \
+    npm-repack \
+    psm=on \
+    psm=off \
+    vsm-hard
+    
+do
+    wineserver -k || true
+    rm -rf "$WINEPREFIX"
+    sh winetricks  -q -v $verb || test_failed $verb
+done
+
+# Test dotnet/etc. a bit more extensively:
+if [ ! -x "`which gmcs`" ]
+then
+    echo "gmcs not found, please install it to test dotnet/mono"
+    echo "e.g., sudo apt-get install mono-gmcs"
+else
+    cat > dotnet_test.c << __EOF__
+using System; class ExampleClass { static void Main(){Console.WriteLine("Dotnet works!");} }
+__EOF__
+    gmcs dotnet_test.c
+
+# Note: gmcs builds a .Net 2.0+ exe, so we can't use this for dotnet11
+    for verb in \
+        dotnet20 \
+        mono26 \
+        mono28
+    do
+        wineserver -k || true
+        rm -rf "$WINEPREFIX"
+        sh winetricks -q -v nocrashdialog $verb
+        wine dotnet_test.exe | grep "Dotnet works!" || test_failed $verb
+    done
+    rm dotnet_test.c dotnet_test.exe
+fi
+
+# Known to have problems
+
+if [ "$1" = "--all" ]
+then
+    # Ignores -q
+    for verb in \
+        allcodecs \
+        cygwin \
+        dirac \
+        directx9 \
+        divx \
+        dotnet11sdk \
+        dotnet20sdk \
+        icodecs \
+        ie6_full \
+        kde \
+        nvidiasdk9 \
+        ole2 \
+        psdk2003 \
+        psdkwin7 \
+        python26 \
+        python-comtypes \
+        vc2005sp1 \
+        vc2005trial
+    do
+        wineserver -k || true
+        rm -rf "$WINEPREFIX"
+        sh winetricks -v nocrashdialog $verb || test_failed $verb
+    done
+fi
+
+# Broken
+#    controlpad #Broken on 64-bit karmic/lucid
+#    dotnet35
+#    ie7
+#    ie8
+#    psdkvista
+#    vc2005express
+#    vc2005expresssp1
+#    windowscodecs (http://bugs.winehq.org/show_bug.cgi?id=24654)
+exit 0

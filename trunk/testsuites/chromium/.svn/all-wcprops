@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/980/trunk/testsuites/chromium
+END
+valgrind-suppressions
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/967/trunk/testsuites/chromium/valgrind-suppressions
+END
+chromium-runtests.sh
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/973/trunk/testsuites/chromium/chromium-runtests.sh
+END
+chromium-valgrind-suppressions
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/967/trunk/testsuites/chromium/chromium-valgrind-suppressions
+END
+depot_tools.reg
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/918/trunk/testsuites/chromium/depot_tools.reg
+END
+build.sh
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/980/trunk/testsuites/chromium/build.sh
+END
+depot_tools.patch
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/959/trunk/testsuites/chromium/depot_tools.patch
+END
+chromium-savetests.sh
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/860/trunk/testsuites/chromium/chromium-savetests.sh
+END

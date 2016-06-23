@@ -1,0 +1,331 @@
+# -*- python -*-
+# ex: set syntax=python:
+
+# This is a sample buildmaster config file. It must be installed as
+# 'master.cfg' in your buildmaster's base directory.
+
+# This is the dictionary that the buildmaster pays attention to. We also use
+# a shorter alias to save typing.
+c = BuildmasterConfig = {}
+
+####### BUILDSLAVES
+
+# The 'slaves' list defines the set of recognized buildslaves. Each element is
+# a BuildSlave object, specifying a unique slave name and password.  The same
+# slave name and password must be configured on the slave.
+from buildbot.buildslave import BuildSlave
+c['slaves'] = []
+c['slaves'].append(BuildSlave("example-slave",       "pass",  max_builds=1))
+c['slaves'].append(BuildSlave("example-slave-e8400", "pass",  max_builds=1))
+c['slaves'].append(BuildSlave("example-slave-q9300", "pass",  max_builds=1))
+c['slaves'].append(BuildSlave("example-slave-i7",    "pass",  max_builds=1))
+c['slaves'].append(BuildSlave("example-slave-e7300", "pass",  max_builds=1))
+c['slaves'].append(BuildSlave("example-freebsd",     "pass",  max_builds=1))
+#c['slaves'].append(BuildSlave("example-slave-celeron280", "pass",  max_builds=1))
+
+# 'slavePortnum' defines the TCP port to listen on for connections from slaves.
+# This must match the value configured into the buildslaves (with their
+# --master option)
+c['slavePortnum'] = 9989
+
+####### CHANGESOURCES
+
+# the 'change_source' setting tells the buildmaster how it should find out
+# about source code changes.  Here we point to the buildbot clone of pyflakes.
+
+from buildbot.changes.gitpoller import GitPoller
+c['change_source'] = GitPoller(
+        'git://source.winehq.org/git/wine.git',
+        workdir='gitpoller-workdir', branch='master',
+        pollinterval=300)
+
+####### FACTORIES
+# Each factory defines one kind of build, but doesn't know anything about 
+# which buildslaves run that kind of build.
+# These variables aren't used by buildbot directly;
+# you have to make BuilderConfig objects that use them (see below).
+
+from buildbot.process.factory import BuildFactory
+from buildbot.steps.source import Git
+from buildbot.steps.shell import ShellCommand
+
+# Default configuration (default gcc)
+factory_default = BuildFactory()
+factory_default.addStep(Git(repourl='git://source.winehq.org/git/wine.git', mode='copy'))
+factory_default.addStep(ShellCommand(command=["wineslave.sh", "patch"], haltOnFailure=True))
+factory_default.addStep(ShellCommand(command=["wineslave.sh", "configure"], haltOnFailure=True))
+factory_default.addStep(ShellCommand(command=["wineslave.sh", "build"], haltOnFailure=True))
+factory_default.addStep(ShellCommand(command=["wineslave.sh", "test"], haltOnFailure=True))
+
+# One builder for the debug heap configuration (default gcc, WINEDEBUG=warn+heap)
+factory_heap = BuildFactory()
+factory_heap.addStep(Git(repourl='git://source.winehq.org/git/wine.git', mode='copy'))
+factory_heap.addStep(ShellCommand(command=["wineslave.sh", "patch"], haltOnFailure=True))
+factory_heap.addStep(ShellCommand(command=["wineslave.sh", "configure"], haltOnFailure=True))
+factory_heap.addStep(ShellCommand(command=["wineslave.sh", "build"], haltOnFailure=True))
+factory_heap.addStep(ShellCommand(command=["wineslave.sh", "heaptest"], haltOnFailure=True))
+
+# One builder for gcc-2.95
+factory_gcc295 = BuildFactory()
+factory_gcc295.addStep(Git(repourl='git://source.winehq.org/git/wine.git', mode='copy'))
+factory_gcc295.addStep(ShellCommand(command=["wineslave.sh", "patch"], haltOnFailure=True))
+factory_gcc295.addStep(ShellCommand(command=["wineslave.sh", "configure 'ccache /usr/local/gcc-2.95.3/bin/gcc'"], haltOnFailure=True))
+factory_gcc295.addStep(ShellCommand(command=["wineslave.sh", "build"], haltOnFailure=True))
+factory_gcc295.addStep(ShellCommand(command=["wineslave.sh", "test"], haltOnFailure=True))
+
+# One builder for FreeBSD
+factory_freebsd = BuildFactory()
+factory_freebsd.addStep(Git(repourl='git://source.winehq.org/git/wine.git', mode='copy'))
+factory_freebsd.addStep(ShellCommand(command=["wineslave.sh", "patch"], haltOnFailure=True))
+factory_freebsd.addStep(ShellCommand(command=["wineslave.sh", "configure"], haltOnFailure=True))
+factory_freebsd.addStep(ShellCommand(command=["wineslave.sh", "build"], haltOnFailure=True))
+factory_freebsd.addStep(ShellCommand(command=["wineslave.sh", "test"], haltOnFailure=True))
+
+####### SCHEDULERS
+# Configure the Schedulers, which decide how to react to incoming changes.  
+
+c['schedulers'] = []
+
+# A private list of the names of all the builders we define later
+# First one is the gatekeeper (at least for patches, not for git revisions)
+allBuilderNames=[
+    "runtests-default",
+    "runtests-default-x86_64",
+    "runtests-heaptest",
+    "runtests-gcc295",
+    "runtests-freebsd",
+]
+
+# On each git checkin, run a build on all builders
+from buildbot.schedulers.basic import SingleBranchScheduler
+c['schedulers'].append(SingleBranchScheduler(
+    name="all",
+    branch='master',
+    treeStableTimer=None,
+    builderNames=allBuilderNames,
+    ))
+
+# On each patch from wine-patches, run a build on the default builder
+from buildbot.scheduler import Try_Userpass
+gatekeeper_sched = Try_Userpass(
+    name="try",
+    port=5555, userpass=[("fred","trybot")],
+    builderNames=[allBuilderNames[0]]
+    )
+c['schedulers'].append(gatekeeper_sched)
+
+from buildbot.schedulers import dependent
+# If it passes there, also run it on the other builders. 
+# This cuts down on repetitive email notifications of failed builds.
+c['schedulers'].append(dependent.Dependent(
+    name="other testers",
+    upstream=gatekeeper_sched, # <- no quotes!
+    builderNames=allBuilderNames[1:]
+    ))
+
+# Do a full build every hour for a while... let's flush out the flaky tests.
+from buildbot.schedulers import timed
+scrub = timed.Periodic(name="scrub",
+                builderNames=allBuilderNames,
+                periodicBuildTimer=60*60)
+c['schedulers'].append(scrub)
+
+####### BUILDERS
+# The 'builders' list defines the Builders, which tell Buildbot how to perform a build:
+# what steps, and which slaves can execute them.  
+# Each build takes place on a random idle slave from the slavenames list.
+# Note that any particular build will only take place on one slave.
+
+from buildbot.config import BuilderConfig
+
+c['builders'] = []
+
+# We want four diferent queues at the moment: default on both i686 and x86_64, and heaptest and gcc295 on i686.
+# Later we'll do more combinations (e.g. heaptest on x86_64).
+# The first one is special, it's the gatekeeper, so we need redundant buildslaves on it.
+c['builders'].append(
+    BuilderConfig(name="runtests-default",
+      slavenames=[
+          "example-slave",
+          "example-slave-e8400",
+          "example-slave-q9300",
+          "example-slave-i7",
+      ],
+      factory=factory_default))
+
+c['builders'].append(
+    BuilderConfig(name="runtests-default-x86_64",
+      slavenames=[
+          "example-slave-q9300",
+      ],
+      factory=factory_default))
+
+c['builders'].append(
+    BuilderConfig(name="runtests-heaptest",
+      slavenames=[
+          "example-slave-i7",
+      ],
+      factory=factory_heap))
+
+c['builders'].append(
+    BuilderConfig(name="runtests-gcc295",
+      slavenames=[
+          "example-slave-e7300",
+      ],
+      factory=factory_gcc295))
+
+c['builders'].append(
+    BuilderConfig(name="runtests-freebsd",
+      slavenames=[
+          "example-freebsd",
+      ],
+      factory=factory_freebsd))
+
+####### STATUS TARGETS
+
+# 'status' is a list of Status Targets. The results of each build will be
+# pushed to these targets. buildbot/status/*.py has a variety to choose from,
+# including web pages, email senders, and IRC bots.
+
+c['status'] = []
+
+from buildbot.status import html
+from buildbot.status.web import auth, authz
+authz_cfg=authz.Authz(
+    # change any of these to True to enable; see the manual for more
+    # options
+    gracefulShutdown = False,
+    forceBuild = True, # use this to test your slave once it is set up
+    forceAllBuilds = False,
+    pingBuilder = False,
+    stopBuild = False,
+    stopAllBuilds = False,
+    cancelPendingBuild = False,
+)
+c['status'].append(html.WebStatus(http_port=8010, authz=authz_cfg, numbuilds=40))
+
+import re
+
+def extract_errors(lines):
+    backtracing = False
+    result = []
+    expr = re.compile("wineserver crashed|collect2: ld returned|: undefined reference to|: multiple definition of|error: |fatal: |: In function|At top level:|make: \*\*\*|make.*: .* Error \d+$|request for member .* in something not a structure or union|union has no member named|^]] |\.sh: .*: not found")
+    for line in lines:
+        if expr.search(line):
+            # Strip the "]] " marker prepended by dotests.sh to failing tests
+            if re.match("]] ", line):
+                # Skip overly verbose Valgrind lines
+                if re.match("]] --", line) and not re.search("used_suppression", line):
+                    continue
+
+                result.append(line[3:])
+            else:
+                result.append(line)
+    return result
+
+from buildbot.status.results import FAILURE, SUCCESS, Results
+
+# This is like the default formatter from buildbot/status/mail.py,
+# but with a custom subject line, and less info in the body.
+def wine_message_formatter(mode, name, build, results, master_status):
+    result = Results[results]
+    ss = build.getSourceStamp()
+
+    text = "This is an experimental automated build and test service.\n"
+    text += "Please feel free to ignore this email while we work the kinks out.\n"
+    text += "\nFor more info about this message, see http://wiki.winehq.org/BuildBot\n"
+    text += "\n"
+    if mode == "all":
+        text += "The Buildbot has finished a build"
+    elif mode == "failing":
+        text += "The Buildbot has detected a failed build"
+    elif mode == "warnings":
+        text += "The Buildbot has detected a problem in the build"
+    elif mode == "passing":
+        text += "The Buildbot has detected a passing build"
+    elif mode == "change" and result == 'success':
+        text += "The Buildbot has detected a restored build"
+    else:    
+        text += "The Buildbot has detected a new failure"
+    if ss and ss.project:
+        project = ss.project
+    else:
+        project = master_status.getTitle()
+    text += " on builder %s while building %s.\n" % (name, project)
+    if master_status.getURLForThing(build):
+        text += "Full details are available at: %s (though maybe not for long, as I'm still reinstalling the buildbot periodically while experimenting)\n" % master_status.getURLForThing(build)
+
+    t = build.getText()
+    if t:
+        t = ": " + " ".join(t)
+    else:
+        t = ""
+
+    if result == 'success':
+        text += "Build succeeded!\n"
+    elif result == 'warnings':
+        text += "Build Had Warnings%s\n" % t
+    else:
+        text += "BUILD FAILED%s\n" % t
+    text += "\n"
+    text += "Errors:\n"
+
+    # get log for last step
+    logs = build.getLogs()
+    # logs within a step are in reverse order. Search back until we find stdio
+    for log in reversed(logs):
+        if log.getName() == 'stdio':
+            break
+    content = log.getText().splitlines() # Note: can be VERY LARGE
+    fcontent = extract_errors(content)
+    # TODO: In case some tools persist in outputting non-ASCII, uncomment this
+    #fcontent = fcontent.encode('ascii', 'replace')
+    text += "\n".join(fcontent)
+
+    if ss.patch_info:
+        subject = u"Re: %s" % ss.patch_info[1]
+    else:
+        subject = u"Re: trunk build"
+        #'subject': u"Re: %s" % build.getProperty("comment", "??")
+
+    return {
+        'body': text,
+        'type': 'plain',
+        'subject': subject,
+        }
+
+# Send email when build finishes
+from buildbot.status.mail import MailNotifier
+mn = MailNotifier(
+    fromaddr="buildbot@kegel.com",
+    sendToInterestedUsers=False,
+    extraRecipients=["dank@kegel.com"], # "wine-tests-results@winehq.org"],
+    mode="failing",
+    messageFormatter=wine_message_formatter,
+    lookup="example-unused.com")
+#c['status'].append(mn)
+
+####### PROJECT IDENTITY
+
+# the 'title' string will appear at the top of this buildbot
+# installation's html.WebStatus home page (linked to the
+# 'titleURL') and is embedded in the title of the waterfall HTML page.
+
+c['title'] = "Wine"
+c['titleURL'] = "http://winehq.org"
+
+# the 'buildbotURL' string should point to the location where the buildbot's
+# internal web server (usually the html.WebStatus page) is visible. This
+# typically uses the port number set in the Waterfall 'status' entry, but
+# with an externally-visible host name which the buildbot cannot figure out
+# without some help.
+
+c['buildbotURL'] = "http://buildbot.kegel.com/"
+
+####### DB URL
+
+# This specifies what database buildbot uses to store change and scheduler
+# state.  You can leave this at its default for all but the largest
+# installations.
+c['db_url'] = "sqlite:///state.sqlite"
+

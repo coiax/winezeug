@@ -1,0 +1,19 @@
+diff --git a/master/buildbot/status/mail.py b/master/buildbot/status/mail.py
+index 19ab076..86b9d00 100644
+--- a/master/buildbot/status/mail.py
++++ b/master/buildbot/status/mail.py
+@@ -545,10 +545,10 @@ class MailNotifier(base.StatusReceiverMultiService):
+         m['From'] = self.fromaddr
+         # m['To'] is added later
+ 
+-        if patches:
+-            for (i, patch) in enumerate(patches):
+-                a = self.patch_to_attachment(patch, i)
+-                m.attach(a)
++        #if patches:
++        #    for (i, patch) in enumerate(patches):
++        #        a = self.patch_to_attachment(patch, i)
++        #        m.attach(a)
+         if logs:
+             for log in logs:
+                 name = "%s.%s" % (log.getStep().getName(),

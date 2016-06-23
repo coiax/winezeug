@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/2927/trunk/cmake_examples/ex10
+END
+CMakeLists.txt
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/2927/trunk/cmake_examples/ex10/CMakeLists.txt
+END
+demo.sh
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2927/trunk/cmake_examples/ex10/demo.sh
+END
+readme.txt
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2927/trunk/cmake_examples/ex10/readme.txt
+END

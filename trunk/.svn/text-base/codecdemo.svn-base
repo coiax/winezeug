@@ -1,0 +1,66 @@
+#!/bin/bash
+# (Needs bash extension for 'select')
+# Script to install and test WMP and Quicktime codec on Wine
+# Dan Kegel, Google, 2008
+
+WINE="${WINE:-wine}"
+WINEPATH="${WINEPATH:-winepath}"
+WINEPREFIX="${WINEPREFIX:-$HOME/.wine}"
+
+# Download and install sample files
+# See http://www.jhepple.com/support/sample_movies1.htm
+mkdir -p samples
+cd samples
+# Maarten's example theora+vorbis in ogg video
+# Note: windows files are not allowed to contain colons in the filename
+test -f Acadiane.ogg || wget -O Acadiane.ogg http://upload.wikimedia.org/wikipedia/commons/3/3a/Acadiane.ogg
+
+test -f 40_020a05.mov    || wget  http://www.webaim.org/techniques/captions/quicktime/media/40_020a05.mov
+#test -f mediaexample.wmv || wget  http://support.microsoft.com/support/mediaplayer/wmptest/samples/new/mediaexample.wmv
+for file in \
+    asf_to_mpeg-1.mpeg \
+    AVI_DivX.avi \
+    AVI_to_MPEG-4.avi \
+    DVD.mpg \
+    MPEG-1.mpg \
+    MPEG-1_with_VCD_extensions.mpeg \
+    MPEG-2.mpg \
+    MPEG-2_with_DVD_Extensions.mpeg \
+    MPEG-2_with_Super_VideoCD_Extensions.mpeg \
+    niceday.asf \
+    niceday.rm \
+    niceday.wmv \
+    Real_Media.rm \
+    Standard_MPEG-2.mpeg \
+    SVCD.mpg \
+    vcd.mpg \
+    WindowsMedia.wmv
+do
+    test -f $file || wget http://www.jhepple.com/support/SampleMovies/$file || wget http://www.jhepple.com/SampleMovies/$file
+done
+cd ..
+
+# Download and install simple standalone player that uses system's codecs
+test -f "${WINEPREFIX}/drive_c/mplayerc.exe"   || sh winetricks mpc
+
+# Set vista mode, else divx codec crashes, and quicktime codec blacks screen
+# Note: dirac0.8 directshow support isn't very useful; I include it so you can see that for yourself
+# We need somebody *cough*Maarten*cough* to implement a Schroedinger-1.0-based directshow filter
+cd samples
+WDIR=$($WINEPATH -w `pwd`)
+select file in _install_wmp10 _install_qt _install_xvid _install_divx _install_ogg *
+do
+    case $file in
+    _install_wmp10) sh ../winetricks -q winxp wmp10 vista ;;
+    _install_qt)    sh ../winetricks -q quicktime72 vista ;;
+    _install_xvid)  sh ../winetricks -q xvid vista ;;
+    _install_dirac0.8) sh ../winetricks dirac0.8 vista ;;
+    _install_ogg)   sh ../winetricks ogg vista ;;
+    _install_divx)  echo "Deselect everything but the codec!"; sh ../winetricks divx vista ;;
+    *) $WINE "${WINEPREFIX}/drive_c/mplayerc.exe" $file > ../$file.log 2>&1 ;;
+    #*) echo $WINE "${WINEPREFIX}/drive_c/Program Files/Windows Media Player/wmplayer.exe" /play $WINEPATH $WDIR\\$file ;
+            #WINEDEBUG=+shell32,+ole,+seh $WINE "${WINEPREFIX}/drive_c/Program Files/Windows Media Player/wmplayer.exe" /play $WDIR\\$file > ../$file.log 2>&1 ;;
+    esac
+done
+
+# Todo: Dirac codecs and sample movie.  

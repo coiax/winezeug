@@ -1,0 +1,125 @@
+K 25
+svn:wc:ra_dav:version-url
+V 24
+/svn/!svn/ver/2985/trunk
+END
+mscodescan.pl
+K 25
+svn:wc:ra_dav:version-url
+V 38
+/svn/!svn/ver/2964/trunk/mscodescan.pl
+END
+init-wine-git.sh
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/!svn/ver/482/trunk/init-wine-git.sh
+END
+migrate_isos.sh
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/!svn/ver/2415/trunk/migrate_isos.sh
+END
+wisotool-gensums
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/!svn/ver/1464/trunk/wisotool-gensums
+END
+savejug
+K 25
+svn:wc:ra_dav:version-url
+V 32
+/svn/!svn/ver/1178/trunk/savejug
+END
+savejugtest
+K 25
+svn:wc:ra_dav:version-url
+V 36
+/svn/!svn/ver/1190/trunk/savejugtest
+END
+install-gecko.sh
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/!svn/ver/2975/trunk/install-gecko.sh
+END
+winetricks-alpha
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/!svn/ver/2359/trunk/winetricks-alpha
+END
+clonejug
+K 25
+svn:wc:ra_dav:version-url
+V 33
+/svn/!svn/ver/1195/trunk/clonejug
+END
+clonejugtest
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/svn/!svn/ver/1190/trunk/clonejugtest
+END
+install-wine-deps.sh
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/2985/trunk/install-wine-deps.sh
+END
+mingw32-winebuild.sh
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/1736/trunk/mingw32-winebuild.sh
+END
+gcc64.sh
+K 25
+svn:wc:ra_dav:version-url
+V 32
+/svn/!svn/ver/257/trunk/gcc64.sh
+END
+winetricks
+K 25
+svn:wc:ra_dav:version-url
+V 35
+/svn/!svn/ver/2418/trunk/winetricks
+END
+vcomp.patch
+K 25
+svn:wc:ra_dav:version-url
+V 36
+/svn/!svn/ver/2973/trunk/vcomp.patch
+END
+winetricks-alpha-test
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/2357/trunk/winetricks-alpha-test
+END
+codecdemo
+K 25
+svn:wc:ra_dav:version-url
+V 33
+/svn/!svn/ver/100/trunk/codecdemo
+END
+winetrickstest
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svn/!svn/ver/2153/trunk/winetrickstest
+END
+wustats.sh
+K 25
+svn:wc:ra_dav:version-url
+V 35
+/svn/!svn/ver/2352/trunk/wustats.sh
+END
+install-addons.sh
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/!svn/ver/2979/trunk/install-addons.sh
+END

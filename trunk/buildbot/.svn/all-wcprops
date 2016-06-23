@@ -1,0 +1,191 @@
+K 25
+svn:wc:ra_dav:version-url
+V 33
+/svn/!svn/ver/2966/trunk/buildbot
+END
+ar2.diff
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/!svn/ver/2432/trunk/buildbot/ar2.diff
+END
+dotests.sh
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/2952/trunk/buildbot/dotests.sh
+END
+build-gcc-2.95.3.sh
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2506/trunk/buildbot/build-gcc-2.95.3.sh
+END
+alarum.c
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/!svn/ver/2764/trunk/buildbot/alarum.c
+END
+comdlg32-placate-tests-itemdlg.patch
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/2753/trunk/buildbot/comdlg32-placate-tests-itemdlg.patch
+END
+parsepatch.pl
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/2636/trunk/buildbot/parsepatch.pl
+END
+buildbot-grid-length.patch
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/2595/trunk/buildbot/buildbot-grid-length.patch
+END
+ole32-placate-Wlogical-op.patch
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/2517/trunk/buildbot/ole32-placate-Wlogical-op.patch
+END
+buildbot-git-apply.patch
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/2504/trunk/buildbot/buildbot-git-apply.patch
+END
+wineslave.sh
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/2947/trunk/buildbot/wineslave.sh
+END
+tools-placate-winewrapper.patch
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/2528/trunk/buildbot/tools-placate-winewrapper.patch
+END
+d3dx9_36-placate-texture.patch
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/2711/trunk/buildbot/d3dx9_36-placate-texture.patch
+END
+http-ignore-nxdomain.patch
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/2436/trunk/buildbot/http-ignore-nxdomain.patch
+END
+readme-wine.txt
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2946/trunk/buildbot/readme-wine.txt
+END
+readme.txt
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/2434/trunk/buildbot/readme.txt
+END
+buildbot-propagate-comment.patch
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/2586/trunk/buildbot/buildbot-propagate-comment.patch
+END
+winemaster.sh
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/2703/trunk/buildbot/winemaster.sh
+END
+master.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/2888/trunk/buildbot/master.cfg
+END
+appwiz-placate-Wlogical-op.patch
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/2517/trunk/buildbot/appwiz-placate-Wlogical-op.patch
+END
+dotests_blacklist.txt
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2960/trunk/buildbot/dotests_blacklist.txt
+END
+msxml3-placate-uninit.patch
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/2711/trunk/buildbot/msxml3-placate-uninit.patch
+END
+gdi32-ignore-nonisotropic.patch
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/2436/trunk/buildbot/gdi32-ignore-nonisotropic.patch
+END
+valgrind-blacklist
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2887/trunk/buildbot/valgrind-blacklist
+END
+winedbg-ignore-crashdialog.patch
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/2503/trunk/buildbot/winedbg-ignore-crashdialog.patch
+END
+atl-placate-nullhwnd.patch
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/2712/trunk/buildbot/atl-placate-nullhwnd.patch
+END
+oleaut32-placate-Wlogical-op.patch
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/2517/trunk/buildbot/oleaut32-placate-Wlogical-op.patch
+END
+buildbot-tutorial.sh
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2966/trunk/buildbot/buildbot-tutorial.sh
+END
+buildbot-show-comment.patch
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/2586/trunk/buildbot/buildbot-show-comment.patch
+END
+runval.sh
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/2676/trunk/buildbot/runval.sh
+END
+buildbot-workaround-bug2091.patch
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/2596/trunk/buildbot/buildbot-workaround-bug2091.patch
+END
+comdlg32-placate-tests-finddlg.patch
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/2753/trunk/buildbot/comdlg32-placate-tests-finddlg.patch
+END

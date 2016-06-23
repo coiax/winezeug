@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/2936/trunk/cmake_examples/ex4b
+END
+readme.txt
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2936/trunk/cmake_examples/ex4b/readme.txt
+END
+mymain.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2936/trunk/cmake_examples/ex4b/mymain.cpp
+END
+CMakeLists.txt
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/2936/trunk/cmake_examples/ex4b/CMakeLists.txt
+END
+demo.sh
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2936/trunk/cmake_examples/ex4b/demo.sh
+END
+makeboost32.sh
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/2936/trunk/cmake_examples/ex4b/makeboost32.sh
+END

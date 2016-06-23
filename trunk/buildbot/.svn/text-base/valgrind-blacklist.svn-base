@@ -1,0 +1,733 @@
+{
+   wine_bug_14078
+   Memcheck:Cond
+   fun:serialize_param
+   fun:serialize_param
+   fun:xCall
+   obj:*
+   fun:func_tmarshal
+   fun:run_test
+   fun:main
+}
+{
+   # this one's a little wide, sigh
+   wine_bug_14078_b
+   Memcheck:Cond
+   fun:deserialize_param
+   fun:deserialize_param
+   fun:TMStubImpl_Invoke
+   fun:RPC_ExecuteCall
+   fun:apartment_wndproc
+}
+{
+   wine_bug_14078_c
+   Memcheck:Addr4
+   fun:memcpy
+   fun:xbuf_add
+   fun:serialize_param
+   fun:serialize_param
+   fun:TMStubImpl_Invoke
+   fun:RPC_ExecuteCall
+   fun:apartment_wndproc
+   obj:*/user32.dll.so
+   fun:call_window_proc
+   fun:WINPROC_call_window
+   fun:DispatchMessageW
+   fun:IEWinMain
+   fun:WinMain
+   fun:main
+}
+{
+   wine_bug_17414
+   Memcheck:Addr1
+   fun:test_dde_aw_transaction
+   fun:func_dde
+   fun:run_test
+   fun:main
+}
+{
+   wine_bug_17414
+   Memcheck:Addr2
+   fun:test_dde_aw_transaction
+   fun:func_dde
+   fun:run_test
+   fun:main
+}
+{
+   wine_bug_17414
+   Memcheck:Addr4
+   fun:test_dde_aw_transaction
+   fun:func_dde
+   fun:run_test
+   fun:main
+}
+{
+   wine_bug_20896
+   Memcheck:Addr2
+   fun:GlobalFree
+   fun:WDML_FreeTransaction
+   fun:DdeClientTransaction
+   ...
+   fun:func_dde
+   fun:run_test
+   fun:main
+}
+{
+   wine_bug_26044
+   Memcheck:Cond
+   ...
+   fun:test_AtlAxAttachControl
+   fun:func_atl_ax
+   fun:run_test
+   fun:main
+}
+{
+   wine_bug_26044_b
+   Memcheck:Param
+   write(buf)
+   ...
+   fun:test_AtlAxAttachControl
+   fun:func_atl_ax
+   fun:run_test
+   fun:main
+}
+{
+   wine_bug_26046
+   Memcheck:Cond
+   ...
+   fun:test_today
+}
+{
+   wine_bug_26066
+   Memcheck:Addr4
+   fun:X11DRV_GetKeyboardLayout
+   fun:GetKeyboardLayout
+   fun:IMM_DestroyContext
+   fun:IMM_FreeThreadData
+   ...
+   fun:LdrShutdownThread
+}
+{
+   wine_bug_26068
+   Memcheck:Cond
+   fun:GDI_GetObjPtr
+   ...
+   fun:func_dce
+}
+{
+   wine_bug_26070
+   Memcheck:Addr2
+   fun:RtlImageNtHeader
+   fun:RtlImageDirectoryEntryToData
+   fun:find_entry
+   fun:LdrFindResource_U
+   fun:find_resourceW
+   fun:FindResourceExW
+   fun:FindResourceW
+   fun:LoadMenuW
+   fun:WIN_CreateWindowEx
+   fun:CreateWindowExA
+   fun:check_instance_
+   fun:func_class
+   fun:run_test
+   fun:main
+}
+{
+   wine_bug_26074
+   Memcheck:Cond
+   ...
+   fun:test_click_make_new_folder_button
+   fun:func_brsfolder
+}
+{
+   wine_bug_26074
+   Memcheck:Value4
+   ...
+   fun:test_click_make_new_folder_button
+   fun:func_brsfolder
+}
+{
+   wine_bug_26101
+   Memcheck:Cond
+   ...
+   fun:wine_dbgstr_wn
+   ...
+   fun:ME_CallWordBreakProc
+}
+{
+   wine_bug_26101
+   Memcheck:Cond
+   fun:WINPROC_CallProcWtoA
+   fun:WINPROC_call_window
+   fun:call_window_proc
+   fun:send_message
+   fun:SendMessageW
+   fun:test_EM_FINDWORDBREAK_A
+   fun:func_editor
+   fun:run_test
+}
+{
+   # test_olestream
+   wine_bug_26108
+   Memcheck:Cond
+   fun:StorageImpl_CreateDirEntry
+   ...
+   fun:init_ole_stream
+   fun:DefaultHandler_IPersistStorage_InitNew
+   ...
+   fun:func_defaulthandler
+}
+{
+   wine_bug_26110
+   Memcheck:Param
+   write(buf)
+   ...
+   fun:WriteFile
+   fun:rpcrt4_conn_np_write
+   ...
+   fun:RPCRT4_SendWithAuth
+   fun:RPCRT4_Send
+   fun:process_request_packet
+}
+{
+   wine_bug_26118
+   Memcheck:Cond
+   fun:wine_dbgstr_wn
+   fun:wine_dbgstr_w
+   fun:test_readdirectorychanges_cr
+   fun:func_change
+   fun:run_test
+   fun:main
+}
+{
+   wine_bug_26120
+   Memcheck:Cond
+   fun:memcpy
+   fun:NTDLL_create_struct_sd
+   fun:NtCreateEvent
+   fun:CreateEventExW
+   fun:CreateEventExA
+   fun:CreateEventA
+   fun:test_event
+   fun:func_sync
+   fun:run_test
+   fun:main
+}
+{
+   wine_bug_26122
+   Memcheck:Value4
+   ...
+   fun:wine_cp_mbstowcs
+   fun:MultiByteToWideChar
+   fun:CompareStringA
+   fun:StrCmpNIA
+   fun:SHLWAPI_StrStrHelperA
+   fun:StrStrIA
+   fun:test_loadlibraryshim
+   fun:func_mscoree
+   fun:run_test
+   fun:main
+}
+{
+   wine_bug_26128
+   Memcheck:Param
+   writev(vector[...])
+   fun:writev
+   ...
+   fun:wine_server_call
+   fun:put_message_in_queue
+   fun:send_inter_thread_message
+   fun:send_message
+   fun:SendMessageTimeoutW
+   fun:SHAppBarMessage
+   fun:func_appbar
+   fun:run_test
+   fun:main
+}
+{
+   wine_bug_26139
+   Memcheck:Cond
+   fun:EqualRect
+   fun:FileOpenDlgProc95
+   ...
+   fun:GetFileDialog95A
+   fun:GetOpenFileNameA
+   fun:test_create_view_window2
+}
+{
+   wine_bug_28465
+   Memcheck:Cond
+   fun:strlenW
+   ...
+   fun:test_PathCombineA
+   fun:func_path
+}
+{
+   wine_bug_28465_b
+   Memcheck:Cond
+   fun:strlenW
+   ...
+   fun:test_PathAppendA
+   fun:func_path
+}
+{
+   wine_bug_28628
+   Memcheck:Cond
+   fun:RtlEqualSid
+   fun:EqualSid
+   fun:IsWellKnownSid
+   fun:LookupAccountSidW
+   fun:LookupAccountSidA
+   fun:test_token_attr
+}
+{
+   wine_bug_28695
+   Memcheck:Cond
+   fun:REBAR_CommonSetupBand
+   ...
+   fun:REBAR_WindowProc
+   obj:*/user32.dll.so
+   fun:call_window_proc
+   fun:WINPROC_call_window
+   fun:call_window_proc
+   fun:send_message
+   fun:SendMessageW
+   fun:create_rebar
+   ...
+   fun:ie_window_proc
+}
+{
+   wine_bug_28695_b
+   Memcheck:Cond
+   fun:REBAR_ValidateBand
+   ...
+   fun:REBAR_WindowProc
+   obj:*/user32.dll.so
+   fun:call_window_proc
+   fun:WINPROC_call_window
+   fun:call_window_proc
+   fun:send_message
+   fun:SendMessageW
+   fun:create_rebar
+   ...
+   fun:ie_window_proc
+}
+{
+   wine_bug_28696
+   Memcheck:Param
+   write(buf)
+   fun:__write_nocancel
+   fun:WriteFile
+   fun:FileLockBytesImpl_WriteAt
+   fun:StorageImpl_WriteAt
+   fun:StorageImpl_WriteBigBlock
+   fun:BlockChainStream_Flush
+   fun:StorageImpl_Flush
+   ...
+   fun:func_intshcut
+}
+{
+   wine_bug_28698
+   Memcheck:Cond
+   fun:winetest_vok
+   fun:winetest_ok
+   fun:test_ReadAndWriteProperties
+   ...
+   fun:func_intshcut
+   fun:run_test
+   fun:main
+}
+{
+   wine_bug_28708
+   Memcheck:Cond
+   fun:*
+   fun:convert_to_1
+   fun:convert_bitmapinfo
+   ...
+   fun:StretchDIBits
+}
+{
+   wine_bug_28712
+   Memcheck:Addr4
+   fun:check_notification
+   fun:send_callback
+   fun:release_object
+   ...
+   fun:request_destroy
+   fun:release_object
+   fun:task_thread
+   fun:worker_thread_proc
+}
+{
+   wine_bug_28715
+   Memcheck:Value4
+   fun:wine_cp_mbstowcs
+   fun:MultiByteToWideChar
+   fun:LCMapStringA
+   fun:MSVCRT__create_locale
+   fun:MSVCRT_setlocale
+   fun:func_locale
+   fun:run_test
+   fun:main
+}
+{
+   wine_bug_28715b
+   Memcheck:Value4
+   fun:wine_cp_mbstowcs
+   fun:MultiByteToWideChar
+   fun:LCMapStringA
+   fun:MSVCRT__create_locale
+   fun:MSVCRT_setlocale
+   fun:test_mbstowcs
+   fun:func_string
+   fun:run_test
+   fun:main
+}
+{
+   wine_bug_28732
+   Memcheck:Addr4
+   fun:MONTHCAL_UpdateSize
+}
+{
+   wine_bug_28732_b
+   Memcheck:Addr4
+   fun:memcpy
+   ...
+   fun:MONTHCAL_UpdateSize
+}
+{
+   wine_bug_28736
+   Memcheck:Cond
+   fun:testQuery
+   fun:func_env
+   fun:run_test
+   fun:main
+}
+{
+   wine_bug_28736b
+   Memcheck:Cond
+   fun:bcmp
+   fun:testQuery
+   fun:func_env
+   fun:run_test
+   fun:main
+}
+{
+   wine_bug_28737
+   Memcheck:Free
+   fun:notify_free
+   fun:RtlFreeHeap
+   fun:IMalloc_fnFree
+   fun:CoTaskMemFree
+   fun:SHFree
+   ...
+   fun:BrsFolderDlgProc
+}
+{
+   wine_bug_28738
+   Memcheck:Addr2
+   fun:wine_dbgstr_wn
+   ...
+   fun:server_end_to_end_callback
+   ...
+   fun:test_end_to_end_server
+}
+{
+   wine_bug_28783_b
+   Memcheck:Addr1
+   ...
+   fun:dde_server_wndproc*
+   ...
+   fun:WDML_SyncWaitTransactionReply
+   fun:WDML_ClientHandle
+   fun:DdeClientTransaction
+   fun:test_dde_aw_transaction
+}
+{
+   wine_bug_28783_c
+   Memcheck:Addr2
+   ...
+   fun:dde_server_wndproc*
+   ...
+   fun:WDML_SyncWaitTransactionReply
+   fun:WDML_ClientHandle
+   fun:DdeClientTransaction
+   fun:test_dde_aw_transaction
+}
+{
+   wine_bug_28738_d
+   Memcheck:Addr4
+   fun:WDML_GetConv
+   fun:DdeQueryConvInfo
+   fun:test_dde_aw_transaction
+}
+{
+   wine_bug_28742
+   Memcheck:Addr4
+   fun:memcpy
+   fun:MONTHCAL_NotifyDayState
+   fun:MONTHCAL_UpdateSize
+   fun:MONTHCAL_WindowProc
+   ...
+   fun:create_monthcal_control
+   fun:test_daystate
+   fun:func_monthcal
+   fun:run_test
+   fun:main
+}
+{
+   wine_bug_28745
+   Memcheck:Cond
+   ...
+   fun:enum_callback
+   fun:enumerate_mmdevices
+   fun:DSPROPERTY_EnumerateW
+   ...
+   fun:IKsPrivatePropertySetImpl_Get
+   ...
+   fun:func_propset
+   fun:run_test
+   fun:main
+}
+{
+   wine_bug_28754
+   Memcheck:Cond
+   ...
+   fun:update_layout
+   ...
+   fun:test_basics
+   fun:func_itemdlg
+   fun:run_test
+   fun:main
+}
+{
+   wine_bug_28754_b
+   Memcheck:Param
+   write(buf)
+   ...
+   fun:update_layout
+   ...
+   fun:test_basics
+   fun:func_itemdlg
+   fun:run_test
+   fun:main
+}
+{
+   wine_bug_28756
+   Memcheck:Cond
+   fun:get_cached_fd
+   fun:server_get_unix_fd
+   fun:wine_server_handle_to_fd
+   fun:WS2_recv_base
+   fun:WSARecv
+   fun:recv_thread
+}
+{
+   wine_bug_28756_b
+   Memcheck:Param
+   write(buf)
+   obj:libpthread-*.so
+   fun:wine_server_call
+   fun:server_get_unix_fd
+   fun:wine_server_handle_to_fd
+   fun:WS2_recv_base
+   fun:WSARecv
+   fun:recv_thread
+}
+{
+   wine_bug_28761_a
+   Memcheck:Addr4
+   fun:ddraw_surface_delete_attached_surface
+   fun:ddraw_surface_wined3d_object_destroyed
+   fun:wined3d_surface_decref
+   fun:wined3d_device_uninit_3d
+   fun:ddraw_surface_cleanup
+   fun:ddraw_surface_release_iface
+   fun:ddraw_surface7_Release
+   fun:func_d3d
+   fun:run_test
+   fun:main
+}
+{
+   wine_bug_28761_b
+   Memcheck:Addr4
+   fun:surface_cleanup
+   fun:wined3d_surface_decref
+   fun:ddraw_surface_destroy
+   fun:ddraw_surface_cleanup
+   fun:ddraw_surface_release_iface
+   fun:ddraw_surface7_Release
+   fun:func_overlay
+   fun:run_test
+   fun:main
+}
+{
+   wine_bug_28767
+   Memcheck:Cond
+   fun:__mktime_internal
+   fun:mktime
+   fun:TRASH_EnumItems
+   fun:SHQueryRecycleBinW
+   fun:SHQueryRecycleBinA
+   fun:test_query_recyclebin
+   fun:func_recyclebin
+   fun:run_test
+   fun:main
+}
+{
+   wine_bug_28769
+   Memcheck:Addr1
+   ...
+   fun:foldermanager_GetFolder
+   fun:test_knownFolders
+   fun:func_shellpath
+   fun:run_test
+   fun:main
+}
+{
+   wine_bug_28769_b
+   Memcheck:Free
+   ...
+   fun:RtlFreeHeap
+   fun:foldermanager_Release
+   fun:test_knownFolders
+   fun:func_shellpath
+   fun:run_test
+   fun:main
+}
+{
+   wine_bug_28796
+   Memcheck:Cond
+   ...
+   fun:lookup_manifest_file
+   ...
+   fun:RtlCreateActivationContext
+}
+{
+   wine_bug_28796_b
+   Memcheck:Value4
+   ...
+   fun:lookup_manifest_file
+   ...
+   fun:RtlCreateActivationContext
+}
+{
+   wine_bug_28797
+   Memcheck:Cond
+   fun:strlenW
+   fun:DrawTextExW
+   fun:DrawTextW
+   fun:NC_DrawCaption
+   fun:NC_DoNCPaint
+   ...
+   fun:CreateWindowExW
+}
+{
+   wine_bug_28799
+   Memcheck:Overlap
+   fun:memcpy
+   fun:weld_float16_*
+   fun:weld_component
+   fun:D3DXWeldVertices
+   fun:test_weld_vertices
+   fun:func_mesh
+   fun:run_test
+   fun:main
+}
+# nasty stack smash?
+{
+   wine_bug_25826
+   Memcheck:Overlap
+   fun:memcpy
+   fun:format_string
+   fun:vsnprintfW
+   fun:sprintfW
+   fun:CategoryMgr_FindClosestCategory
+   fun:next_LanguageProfile
+   fun:EnumTfLanguageProfiles_Next
+   fun:test_EnumLanguageProfiles
+   fun:func_inputprocessor
+   fun:run_test
+   fun:main
+}
+{
+   wine_bug_28811
+   Memcheck:Addr2
+   fun:else_break
+   fun:BREAK_line
+   fun:ScriptBreak
+}
+{
+   wine_bug_28812
+   Memcheck:Cond
+   ...
+   fun:oriya_lex
+   ...
+   fun:test_ScriptShapeOpenType
+}
+{
+   wine_bug_28812_b
+   Memcheck:Value4
+   ...
+   fun:oriya_lex
+   ...
+   fun:test_ScriptShapeOpenType
+}
+{
+   wine_bug_28813
+   Memcheck:Cond
+   ...
+   fun:get_glyph_cluster_advance
+   fun:ScriptXtoCP
+   fun:test_ScriptXtoX
+   fun:func_usp10
+   fun:run_test
+   fun:main
+}
+{
+   wine_bug_28821
+   Memcheck:Value4
+   fun:wcstombs_sbcs
+   fun:wine_cp_wcstombs
+   fun:WideCharToMultiByte
+   fun:GetCalendarInfoA
+   fun:test_GetCalendarInfo
+   fun:func_time
+}
+{
+   wine_bug_28823
+   Memcheck:Value4
+   fun:_itoa_word
+   ...
+   fun:debugstr_wn
+   fun:ME_WordBreakProc
+   fun:ME_CallWordBreakProc
+   fun:ME_MoveCursorWords
+   fun:ME_ArrowKey
+   fun:ME_KeyDown
+   ...
+   fun:test_word_movement
+}
+{
+   wine_bug_28824
+   Memcheck:Cond
+   fun:__mktime_internal
+   fun:mktime
+   fun:TRASH_GetDetails
+   fun:TRASH_EnumItems
+   fun:SHQueryRecycleBinW
+   fun:SHQueryRecycleBinA
+   fun:test_query_recyclebin
+   fun:func_recyclebin
+   fun:run_test
+   fun:main
+}
+{
+   wine_bug_28831
+   Memcheck:Cond
+   fun:_gnutls_recv_int
+   ...
+   fun:InitializeSecurityContextA
+   fun:test_communication
+   fun:func_schannel
+}

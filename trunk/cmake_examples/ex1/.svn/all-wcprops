@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/2890/trunk/cmake_examples/ex1
+END
+CMakeLists.txt
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/2890/trunk/cmake_examples/ex1/CMakeLists.txt
+END
+demo.sh
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2890/trunk/cmake_examples/ex1/demo.sh
+END
+demo.bat
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2890/trunk/cmake_examples/ex1/demo.bat
+END
+readme.txt
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2890/trunk/cmake_examples/ex1/readme.txt
+END
+mymain.c
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2890/trunk/cmake_examples/ex1/mymain.c
+END

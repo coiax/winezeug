@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/2897/trunk/cmake_examples/ex6/demo
+END
+mymain.c
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/2897/trunk/cmake_examples/ex6/demo/mymain.c
+END
+CMakeLists.txt
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/2897/trunk/cmake_examples/ex6/demo/CMakeLists.txt
+END

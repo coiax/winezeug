@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 32
+/svn/!svn/ver/2382/trunk/yagmark
+END
+yagmark-daily.sh
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2368/trunk/yagmark/yagmark-daily.sh
+END
+yagmark-vars
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/2368/trunk/yagmark/yagmark-vars
+END
+yagmark.sh
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/2382/trunk/yagmark/yagmark.sh
+END
+yagmark-continuous.sh
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2368/trunk/yagmark/yagmark-continuous.sh
+END
+yagmarktest
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/2378/trunk/yagmark/yagmarktest
+END
+yagmark-series.sh
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2368/trunk/yagmark/yagmark-series.sh
+END
+run-yagmark-series.sh
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2368/trunk/yagmark/run-yagmark-series.sh
+END
+yagmark-sync.sh
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/2368/trunk/yagmark/yagmark-sync.sh
+END
+yagmark-stats.sh
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2377/trunk/yagmark/yagmark-stats.sh
+END
+yagmark-plot.sh
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/2368/trunk/yagmark/yagmark-plot.sh
+END

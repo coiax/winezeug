@@ -1,0 +1,77 @@
+/* give a WineHQ-ish look to the result list */
+
+body {
+    background-color: #E2E2E2;
+    color: #000000;
+    font-family: "bitstream vera sans", "verdana", "arial", "helvetica", sans-serif;
+    margin: 10px;
+    font-size: small;
+}
+
+a                   { color: #A50D0D; text-decoration: none; }
+a:visited           { color: #600000; }
+a:hover             { color: #666666; text-decoration: underline; }
+a:active            { color: #FF0000; }
+a.hidden            { text-decoration: none; color: #000000; }
+
+td.result {
+        border-left-width: thick;
+        border-left-style: solid;
+        border-right-width: thick;
+        border-right-style: solid;
+}
+.pass {
+        background-color: #60ff60;
+        border-left-color: #60ff60;
+        border-right-color: #60ff60;
+        color: black;
+}
+.fail {
+        background-color: #ff5050;
+        border-left-color: #ff5050;
+        border-right-color: #ff5050;
+        color: black;
+}
+
+table {
+    margin-right: auto;
+    text-spacing: 0;
+    border-spacing: 0;
+}
+
+table th {
+    line-height: 0.9;
+    vertical-align: text-top;
+    border-width: thin;
+    background-color: #601919;
+    color: #ffffff;
+    padding: 5px;
+    font-size: small;
+}
+
+table td {
+    padding: 1px 5px;
+    font-size: small;
+    vertical-align: top;
+}
+
+tr.light { background-color: #ffffff; }
+tr.dark  { background-color: #fff8f8; }
+tr.light:hover { background-color: #f8e8e8; }
+tr.dark:hover  { background-color: #f8e8e8; }
+
+td.date, td.from {
+    font-family: monospace;
+    white-space: nowrap;
+}
+th.subject {
+    text-align: left;
+}
+td.result {
+    text-align: left;
+    white-space: nowrap;
+}
+col.date { width: 7%; }
+col.from { width: 7%; }
+col.subject { width: 66%; }
+col.result { width: 20%; }

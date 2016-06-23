@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/!svn/ver/2766/trunk/buildbot/pending
+END
+advapi32-invalid.patch
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/2760/trunk/buildbot/pending/advapi32-invalid.patch
+END
+ole32-tests-freedhglobal.patch
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/2766/trunk/buildbot/pending/ole32-tests-freedhglobal.patch
+END
+ntdll-actctx.patch
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/2760/trunk/buildbot/pending/ntdll-actctx.patch
+END
+kernel32-change-filenamelen.patch
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/2760/trunk/buildbot/pending/kernel32-change-filenamelen.patch
+END

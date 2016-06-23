@@ -1,0 +1,9 @@
+This is a small test program written by Vincent Povirk for CodeWeavers to test
+loading images with gdiplus. Originally written to test Wine's gdiplus implementation
+again Windows' WIC.
+
+MIT licensed.
+
+SHA1SUM:
+264f58c17ae3b8d85f196eb9d771f09f55951010  imagetest.c
+5f1cbf9f60a2a6b73070e20843c7f92b4daf27ad  imagetest.exe

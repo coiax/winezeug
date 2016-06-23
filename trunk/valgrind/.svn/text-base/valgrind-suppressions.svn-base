@@ -1,0 +1,1764 @@
+# These three happen if valgrind doesn't notice and handle speculative
+# implementations of strchr/strlen/strcat properly.
+{
+   visual_c_ignore_strchr
+   Memcheck:Cond
+   fun:strchr
+}
+{
+   visual_c_ignore_strlen
+   Memcheck:Cond
+   fun:strlen
+}
+{
+   visual_c_ignore_strcat
+   Memcheck:Cond
+   fun:strcat
+}
+# ioctl often involves structs with holes.
+{
+   wine_struct_hole_FILE_PIPE_WAIT_FOR_BUFFER
+   Memcheck:Param
+   writev(vector[...])
+   ...
+   fun:wine_server_call
+   ...
+   fun:server_ioctl_file
+   fun:NtFsControlFile
+}
+{
+   # See http://www.winehq.org/pipermail/wine-devel/2008-November/070539.html
+   # We might want to add an annotationto WriteConsoleInputW
+   # for the hole someday.
+   wine_struct_hole_WriteConsoleInput
+   Memcheck:Param
+   writev(vector[...])
+   fun:writev
+   fun:send_request
+   fun:wine_server_call
+   fun:wine_server_call_err
+   fun:WriteConsoleInputW
+}
+# We sure got a lot of these in the logs when I first started.
+# I suppressed them to avoid dispair.  
+{
+   todo_wine_arrgh_wcstombs
+   Memcheck:Value4
+   fun:wine_cp_wcstombs
+}
+# Now on to system bugs that aren't Wine's fault.
+{
+   suppress_nss_leak
+   Memcheck:Leak
+   fun:malloc
+   obj:*
+   fun:__nss_database_lookup
+}
+{
+   bogus_addr4_ldso_2x
+   Memcheck:Addr4
+   obj:/lib*/ld-2.*
+}
+{
+   bogus_cond_ldso_2x
+   Memcheck:Cond
+   obj:/lib*/ld-2.*
+}
+{
+   bogus_cond_libglcore
+   Memcheck:Cond
+   obj:*/libGLcore.so.*
+}
+{
+   bogus_value4_libglcore
+   Memcheck:Value4
+   obj:*/libGLcore.so.*
+}
+{   
+   bogus_addr2_libglcore
+   Memcheck:Addr2
+   obj:*/libGLcore.so.*
+}
+{
+   suppress_ioctl_libglcore
+   Memcheck:Param
+   ioctl(generic)
+   fun:ioctl
+   obj:*/libGLcore.so.*
+}
+{
+   bogus_addr4_libgl
+   Memcheck:Addr4
+   obj:*/libGL.so.*
+}
+{
+   suppress_leak_libgl
+   Memcheck:Leak
+   fun:malloc
+   obj:*/libGL.so.*
+}
+{
+   bogus_X11_1
+   Memcheck:Param
+   write(buf)
+   obj:*
+   obj:*/libX11.so.6.2.0
+}
+{
+   bogus_X11_2
+   Memcheck:Param
+   write(buf)
+   obj:*
+   obj:*
+   obj:*/libX11.so.6.2.0
+}
+{
+   bogus_Xcursor
+   Memcheck:Cond
+   obj:*/libXcursor.so.1.0.2
+}
+{
+   bogus_libxcb
+   Memcheck:Param
+   writev(vector[...])
+   obj:*
+   obj:*/libxcb.so*
+}
+{
+   suppress_i915_ioctl
+   Memcheck:Param
+   ioctl(generic)
+   obj:*
+   obj:*/i915_dri.so
+}
+{
+   suppress_i915_cond
+   Memcheck:Cond
+   obj:*/i915_dri.so
+}
+{
+   suppress_i915_value
+   Memcheck:Value4
+   obj:*/i915_dri.so
+}
+{
+   suppress_i915_leak1
+   Memcheck:Leak
+   fun:malloc
+   obj:*/i915_dri.so
+}
+{
+   suppress_i915_leak2
+   Memcheck:Leak
+   fun:memalign
+   fun:*
+   obj:*/i915_dri.so
+}
+{
+   suppress_libasound_overlap
+   Memcheck:Overlap
+   fun:memcpy
+   obj:*/libasound.so.2.0.0
+}
+{
+   suppress_libasound_connect
+   Memcheck:Param
+   socketcall.connect(serv_addr..sun_path)
+   obj:*
+   obj:*/libasound.so.2.0.0
+}
+{
+   suppress_libasound_connect2
+   Memcheck:Cond
+   fun:snd_pcm_direct_client_connect
+   obj:*/libasound.so.2.0.0
+}
+{
+   suppress_libasound_bind
+   Memcheck:Param
+   socketcall.bind(my_addr..sun_path)
+   obj:*
+   obj:*/libasound.so.2.0.0
+}
+{
+   suppress_libasound_ioctl
+   Memcheck:Param
+   ioctl(arg)
+   obj:*
+   obj:*/libasound.so.2.0.0
+}
+{
+   suppress_libasound_ioctl2
+   Memcheck:Param
+   ioctl(arg)
+   obj:*
+   fun:ioctl
+   obj:*/libasound.so.2.0.0
+}
+{
+   # Uninitialised value was created by a stack allocation
+   #   at 0x5562C62: ??? (in /usr/lib/i386-linux-gnu/libasound.so.2.0.0)
+   suppress_libasound_ioctl3
+   Memcheck:Param
+   ioctl(arg)
+   fun:ioctl
+   fun:DSOUND_ReopenDevice
+}
+{
+   suppress_libasound_ioctl4
+   Memcheck:Param
+   ioctl(arg)
+   fun:ioctl
+   fun:AudioStreamVolume_Release
+}
+{
+   suppress_libasound_semctl
+   Memcheck:Param
+   semctl(IPC_SET, arg.buf)
+   obj:*
+   obj:*/libasound.so.2.0.0
+}
+{
+   todo_suppress_libasound_leak
+   Memcheck:Leak
+   ...
+   obj:*/libasound.so.2.0.0
+}
+{
+   todo_suppress_libfontconfig_leak
+   Memcheck:Leak
+   fun:malloc
+   obj:*/libfontconfig.so.1.*
+}
+# thread_detach() should clean this up??
+{
+   todo_wine_dlls_winex11drv__x11drv_init_thread_data_main
+   Memcheck:Leak 
+   ...
+   fun:RtlAllocateHeap
+   fun:x11drv_init_thread_data
+}
+# Supposedly there's a call back to X11DRV_DestroyIM at thread destruction time...?
+# and thread_detach() should also clean it up??
+{
+   todo_wine_dlls_winex11drv__x11drv_init_thread_data_xim
+   Memcheck:Leak
+   fun:malloc
+   fun:_XimOpenIM
+   fun:_XimRegisterIMInstantiateCallback
+   fun:XRegisterIMInstantiateCallback
+   fun:X11DRV_SetupXIM
+   fun:x11drv_init_thread_data
+   fun:x11drv_thread_data
+   fun:X11DRV_SetWindowPos
+}
+{
+   todo_wine_dlls_winex11drv__X11DRV_XRandR_Init
+   Memcheck:Leak
+   fun:*alloc
+   fun:XInitExtension
+   fun:XextAddDisplay
+   obj:*/libXrandr*
+   fun:XRRQueryExtension
+   fun:X11DRV_XRandR_Init
+}
+{
+   todo_wine_dlls_winex11drv__X11DRV_XRender_Init
+   Memcheck:Leak
+   fun:*alloc
+   fun:XInitExtension
+   fun:XRenderFindDisplay
+   fun:XRenderQueryExtension
+   fun:X11DRV_XRender_Init
+}
+{
+   todo_wine_dlls_winex11drv__xinerama_init
+   Memcheck:Leak
+   fun:*alloc
+   fun:XInitExtension
+   fun:XextAddDisplay
+   ...
+   fun:XPanoramiXQueryExtension
+   fun:XineramaQueryExtension
+   ...
+   fun:xinerama_init
+}
+{
+   todo_wine_dlls_winex11drv__XkbUseExtension
+   Memcheck:Leak
+   fun:*alloc
+   fun:XInitExtension
+   fun:XkbUseExtension
+   fun:XOpenDisplay
+}
+{
+   todo_wine_dlls_winex11drv__X11DRV_XComposite_Init
+   Memcheck:Leak
+   fun:*alloc
+   fun:XInitExtension
+   fun:XCompositeFindDisplay
+   fun:XCompositeQueryExtension
+}
+{
+   todo_wine_dlls_winex11drv__X11DRV_XF86VM_Init
+   Memcheck:Leak
+   fun:*alloc
+   fun:XInitExtension
+   fun:XextAddDisplay
+   fun:*
+   fun:XF86VidModeQueryExtension
+   fun:X11DRV_XF86VM_Init
+}
+{
+   todo_wine_dlls_winex11drv_XOpenDisplay
+   Memcheck:Leak
+   fun:malloc
+   ...
+   fun:xcb_connect
+   fun:_XConnectXCB
+   fun:XOpenDisplay
+}
+{
+   todo_wine_dlls_winex11drv_XOpenDisplay_2
+   Memcheck:Leak
+   fun:malloc
+   ...
+   fun:xcb_get_extension_data
+   fun:xcb_prefetch_maximum_request_length
+   fun:xcb_get_maximum_request_length
+   fun:XOpenDisplay
+   fun:DllMain
+}
+{
+   todo_suppress_alloc_module_leak
+   Memcheck:Leak
+   ...
+   fun:RtlAllocateHeap
+   fun:RtlCreateUnicodeString
+   fun:alloc_module
+}
+{
+   todo_suppress_dlopen_leak
+   Memcheck:Leak
+   fun:*alloc
+   ...
+   fun:dlopen
+}
+{
+   todo_suppress_dlopen_leak2
+   Memcheck:Leak
+   fun:*alloc
+   ...
+   fun:dl_open_worker
+   fun:_dl_catch_error
+   fun:_dl_open
+   fun:dlopen_doit
+   fun:_dl_catch_error
+}
+{
+   suppress_dlopen_addr4
+   Memcheck:Addr4
+   ...
+   fun:__libc_dlopen_mode
+}
+{
+   todo_suppress_load_library_leak
+   Memcheck:Leak
+   ...
+   fun:RtlAllocateHeap
+   fun:RtlAnsiStringToUnicodeString
+   fun:RtlCreateUnicodeStringFromAsciiz
+   fun:get_load_order
+}
+{
+   todo_suppress_wine_init_load_order_leak
+   Memcheck:Leak
+   ...
+   fun:RtlAllocateHeap
+   fun:RtlAnsiStringToUnicodeString
+   fun:RtlCreateUnicodeStringFromAsciiz
+   fun:init_load_order
+}
+# ntdll/loader.c explicitly avoids freeing when .exe's exit at the moment
+{
+   todo_suppress_wine_alloc_module_leak
+   Memcheck:Leak
+   ...
+   fun:RtlAllocateHeap
+   fun:RtlCreateUnicodeString
+   fun:alloc_module
+}
+{
+   todo_suppress_explorer_leak
+   Memcheck:Leak
+   ...
+   fun:RtlAllocateHeap
+   fun:load_driver
+   fun:loaderdrv_CreateDesktopWindow
+   fun:WIN_CreateWindowEx
+   fun:CreateWindowExW
+   fun:manage_desktop
+   fun:WinMain
+   fun:main
+}
+{
+   todo_suppress_exception_addr4
+   Memcheck:Addr4
+   fun:__wine_call_from_32_regs
+   obj:*/ntdll.dll.so
+   obj:*/ntdll.dll.so
+   fun:raise_exception
+}
+{
+   wine_ignore_ntdll__func_exception
+   Memcheck:Cond
+   fun:handler
+   ...
+   fun:raise_exception
+   fun:NtRaiseException
+   fun:raise_segv_exception
+   ...
+   fun:func_exception
+}
+{
+   todo_ignore_bogus_writes_in_req_handler
+   Memcheck:Param
+   writev(vector[1])
+   obj:*
+   fun:call_req_handler
+}
+# See comment in dlls/kernel32/tests/thread.c at end of threadFunc1
+{
+   suppress_wine_verify_lstrlenA_deadbeef_zero
+   Memcheck:Addr1
+   ...
+   fun:lstrlenA
+   fun:threadFunc1
+}
+# test_UnpackDDElParam intentionally passes a bad pointer
+{
+  suppress_wine_user32_dde_tests
+  Memcheck:Addr2
+  fun:GlobalLock
+  fun:UnpackDDElParam
+  fun:test_UnpackDDElParam
+  fun:func_dde
+  fun:run_test
+  fun:main
+}
+{
+   suppress_gmtime
+   Memcheck:Cond
+   obj:*
+   obj:*
+   fun:gmtime
+   fun:FileTimeToDosDateTime
+}
+{
+   suppress_gmtime_r
+   Memcheck:Cond
+   obj:*
+   obj:*
+   fun:gmtime_r
+   fun:FileTimeToDosDateTime
+}
+{ 
+   suppress_if_name2index_glibc_27
+   Memcheck:Param
+   ioctl(SIOCGIFINDEX)
+   obj:/lib*/ld-2.7.so
+   fun:getInterfaceIndexByName
+}
+{
+   suppress_if_nameindex_glibc_23
+   Memcheck:Param
+   socketcall.sendto(msg)
+   obj:/lib*/ld-2.3.*.so
+   fun:if_nameindex
+}
+{
+   # See also http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=553016
+   # and http://bbs.archlinux.org/viewtopic.php?pid=273718
+   suppress_glibc_dl_relocate_object
+   Memcheck:Cond
+   fun:_dl_relocate_object
+}
+{
+   # With ubuntu 9.04:
+   #  Uninitialised value was created by a stack allocation
+   #    at  __libc_res_nsend (res_send.c:343)
+   glibc_bug_libc_res_nsend
+   Memcheck:Cond
+   fun:__libc_res_nsend
+}
+# Naming convention for Wine suppressions:
+# If we think it's solid:
+# suppress_wine_dirname__functionname[_moreifneeded]
+# If we aren't sure, change suppress to todo
+{
+   # intentionally frees an invalid pointer.
+   # It would be nice if that were in a different
+   # function, so we could suppress it specifically,
+   # and not other possible warnings in the heap tests.
+   suppress_wine_dlls_kernel32_tests__test_heap_invalid_free
+   Memcheck:Free
+   fun:notify_free
+   fun:RtlFreeHeap
+   fun:HeapFree
+   fun:GlobalFree
+   fun:test_heap
+   fun:func_heap
+   fun:run_test
+   fun:main
+}
+{
+   # Lots of little invalid things going on in this test
+   suppress_wine_dlls_kernel32_tests_test_heap
+   Memcheck:Addr2
+   ...
+   fun:test_heap
+   fun:func_heap
+   fun:run_test
+   fun:main
+}
+{   
+   suppress_wine_dlls_kernel32_tests__CreateThread_basic_badaccess
+   Memcheck:Addr1
+   ...
+   fun:lstrlenA
+   fun:test_CreateThread_basic
+}
+{
+   suppress_wine_dlls_kernel32_IsBadReadPtr
+   Memcheck:Addr1
+   fun:IsBadReadPtr
+}
+{
+   suppress_wine_dlls_kernel32__IsBadWritePtr
+   Memcheck:Addr1
+   fun:IsBadWritePtr
+}
+{
+   suppress_wine_dlls_kernel32_tests__doCrash
+   Memcheck:Addr1
+   fun:doCrash
+}
+# This one is for a jump to zero done intentionally by the crypt32 tests
+# compiled with -O2, it looks like this?
+{
+   suppress_wine_dlls_crypt32_tests__test_data_msg_O2
+   Memcheck:Addr4
+   fun:__wine_call_from_32_regs
+   fun:CryptMsgUpdate
+   fun:test_data_msg
+}
+# compiled with -O0, it looks like this?
+{
+   suppress_wine_dlls_crypt32_tests__test_data_msg_O0
+   Memcheck:Jump
+   obj:*
+   fun:CryptMsgUpdate
+   ...
+   fun:test_data_msg
+}
+# These two functions test error returned by file read/write with null buffers 
+{
+   suppress_wine_kernel32_tests__test_read_write_nullwrite
+   Memcheck:Param
+   write(buf)
+   obj:/lib*/ld-*.so
+   fun:WriteFile
+   fun:test_read_write
+   fun:func_file
+   fun:run_test
+   fun:main
+}
+{
+   suppress_wine_kernel32_tests__test_read_write_nullread
+   Memcheck:Param
+   read(buf)
+   obj:/lib*/ld-*.so
+   fun:ReadFile
+   fun:test_read_write
+   fun:func_file
+   fun:run_test
+   fun:main
+}
+
+# test_SetThreadContext:
+# The code in question looks like this:
+#/* simulate a call to set_test_val(10) */
+#stack = (int *)ctx.Esp;
+#stack[-1] = 10;
+#stack[-2] = ctx.Eip;
+# So we actually are writing to the stack, just not using 'proper'
+# access to the stack.
+{
+  suppress_wine_kernel32_tests__test_SetThreadContext
+  Memcheck:Addr4
+  fun:test_SetThreadContext
+  fun:func_thread
+  fun:run_test
+  fun:main
+}
+# We really shouldn't even run valgrind on kernel32/tests/debugger.c.
+{
+   ignore_wine_kernel32_tests__debugger
+   Memcheck:Addr1
+   fun:func_debugger
+   fun:run_test
+   fun:main
+}
+{
+   ignore_rsaenh_test_expected_bad_access
+   Memcheck:Addr4
+   fun:CryptReleaseContext
+   fun:clean_up_base_environment
+}
+{
+   # See bug 26109
+   ignore_ole32_test_expected_bad_access
+   Memcheck:Addr2
+   fun:GlobalLock
+   fun:HGLOBALStreamImpl_Read
+   fun:test_freed_hglobal
+   fun:func_hglobalstream
+   fun:run_test
+   fun:main
+}
+{
+   ignore_ole32_test_expected_bad_access2
+   Memcheck:Addr4
+   fun:GlobalReAlloc
+   ...
+   fun:test_freed_hglobal
+   fun:func_hglobalstream
+   fun:run_test
+   fun:main
+}
+
+# Back to system suppressions that aren't wine's fault
+# gecko is #1 in the list of offending upstream libraries...
+{
+   todo_gecko_warnings_r_us
+   Memcheck:Addr4
+   obj:*wine_gecko*
+}
+{
+   todo_gecko_warnings_r_us2
+   Memcheck:Cond
+   obj:*wine_gecko*
+}
+# followed by openssl
+{
+   todo_openssl_warnings_r_us1a
+   Memcheck:Addr4
+   obj:*/libcrypto.so*
+}
+{
+   todo_openssl_warnings_r_us1b
+   Memcheck:Value4
+   obj:*/*libcrypto.so*
+}
+{
+   todo_openssl_warnings_r_us1c
+   Memcheck:Cond
+   obj:*/*libcrypto.so*
+}
+{
+   todo_openssl_warnings_r_us2a
+   Memcheck:Addr4
+   obj:*
+   obj:*/*libcrypto.so*
+}
+{
+   todo_openssl_warnings_r_us2b
+   Memcheck:Value4
+   obj:*
+   obj:*/*libcrypto.so*
+}
+{
+   todo_openssl_warnings_r_us2c
+   Memcheck:Cond
+   obj:*
+   obj:*/*libcrypto.so*
+}
+{
+   todo_openssl_warnings_r_us1d
+   Memcheck:Param
+   write(buf)
+   obj:*
+   obj:*/*libcrypto.so*
+}
+{
+   todo_openssl_warnings_r_us3a
+   Memcheck:Addr4
+   obj:*/*libssl.so*
+}
+{
+   todo_openssl_warnings_r_us3b
+   Memcheck:Value4
+   obj:*/*libssl.so*
+}
+{
+   todo_openssl_warnings_r_us3c
+   Memcheck:Cond
+   obj:*/*libssl.so*
+}
+{
+   # http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=532059
+   # http://rt.openssl.org/index.html?q=1642
+   todo_openssl_warnings_mod_inverse
+   Memcheck:Cond
+   fun:BN_mod_inverse
+}
+{
+   # http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=532059
+   # http://rt.openssl.org/index.html?q=1642
+   todo_openssl_warnings_div
+   Memcheck:Cond
+   fun:BN_div
+}
+# And sane
+{
+   todo_sane_warnings_r_us
+   Memcheck:Addr4
+   obj:*libsane*
+}
+{
+   todo_sane_warnings_r_us2
+   Memcheck:Cond
+   obj:*libsane*
+}
+# and visual C++ 6
+{
+   todo_visual_c_chkstk
+   Memcheck:Addr4
+   fun:$$$00001
+}
+{
+   todo_visual_c_chkstk_2
+   Memcheck:Addr4
+   fun:_chkstk
+}
+{
+   visual_c_ignore_bad_typeid
+   Memcheck:Cond
+   fun:??0bad_typeid@@QAE@ABV0@@Z
+}
+# and pulseaudio?? possible bad stack from valgrind?
+{
+   fixme_pulseaudio_leak_widOpen
+   Memcheck:Leak
+   fun:calloc
+   ...
+   fun:pa_cvolume_set
+}
+{
+   fixme_pulseaudio_leak_pa_mainloop_dispatch
+   Memcheck:Leak
+   fun:calloc
+   fun:pa_xmalloc0
+   obj:*/libpulse.so.0.7.1
+   obj:*/libpulse.so.0.7.1
+   obj:*/libpulse.so.0.7.1
+   obj:*/libpulse.so.0.7.1
+   obj:*/libpulse.so.0.7.1
+   obj:*/libpulse.so.0.7.1
+   obj:*/libpulse.so.0.7.1
+   obj:*/libpulse.so.0.7.1
+   fun:pa_mainloop_dispatch
+}
+# and msacm32? possible bad stack from valgrind?
+{
+   fixme_msacm32_leak
+   Memcheck:Leak
+   fun:calloc
+   obj:*
+   fun:acmDriverRemove
+   obj:*
+   fun:acmFilterTagDetailsW
+}
+{
+   fixme_msacm32_leak2
+   Memcheck:Leak
+   fun:calloc
+   fun:attr_copy_file
+   ...
+   fun:widReset
+}
+# Seen in chromium's EmfTest
+{
+   fixme_msacm32_leak3
+   Memcheck:Leak
+   fun:calloc
+   obj:*
+   fun:wodPrepare
+   obj:*
+   fun:wodMapperReconfigure
+}
+# aw, heck, sometimes the symbols aren't there?
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:calloc
+   obj:*
+   obj:*msacm32.drv.so
+}
+
+# shell32 isn't freeing its imagelist cache on unload?
+{
+   wine_bug_20544 
+   Memcheck:Leak
+   fun:malloc
+   fun:XInitExtension
+   fun:XextAddDisplay
+   fun:*
+   fun:XShmQueryVersion
+   fun:X11DRV_CreateDIBSection
+   fun:CreateDIBSection
+   fun:ImageList_CreateImage
+   fun:ImageList_Create
+   fun:SIC_Initialize
+   fun:DllMain
+}
+# winmm isn't freeing everything on unload?
+{
+   wine_bug_20545
+   Memcheck:Leak
+   ...
+   fun:Rtl*AllocateHeap
+   fun:MMDRV_InitPerType
+   fun:MMDRV_Install
+   fun:MMDRV_Init
+}
+{
+   # This one's probably benign?
+   user32_builtin_classes_leak
+   Memcheck:Leak
+   fun:calloc
+   fun:XAddExtension
+   fun:_XcursorGetDisplayInfo
+   fun:XcursorSupportsARGB
+   fun:XcursorNoticeCreateBitmap
+   fun:_XNoticeCreateBitmap
+   fun:XCreatePixmap
+   fun:X11DRV_BITMAP_Init
+   fun:device_init
+   fun:X11DRV_CreateDC
+   fun:CreateDCW
+   fun:CURSORICON_CreateIconFromBMI
+   fun:CreateIconFromResourceEx
+   fun:CURSORICON_Load
+   fun:LoadImageW
+   fun:LoadImageA
+   fun:LoadCursorA
+   fun:register_builtin
+   fun:CLASS_RegisterBuiltinClasses
+}
+# yet another leak on unload, seen on chromium's net http and ftp tests
+{
+   wine_bug_20549
+   Memcheck:Leak
+   fun:malloc
+   ...
+   fun:SECUR32_initSchannelSP
+}
+{
+   # yet another gnutls leak?
+   gnutls_leak_bug_2
+   Memcheck:Leak
+   fun:calloc
+   ...
+#   fun:_gnutls_hash_init         (commented out because sometimes this shows up without symbols)
+#   fun:gnutls_handshake
+   fun:schan_InitializeSecurityContextW
+   fun:InitializeSecurityContextW
+}
+{
+   ignore_libtasn1_read_overrun
+   Memcheck:Addr4
+   fun:asn1_der_coding
+   ...
+   fun:InitializeSecurityContextA
+   fun:test_communication
+   fun:func_schannel
+}
+{
+   ignore_libgcrypt_uninit
+   Memcheck:Cond
+   fun:_gcry_mpi_print
+   fun:gcry_mpi_print
+}
+# leak on thread creation?
+{
+   wine_bug_20552
+   Memcheck:Leak
+   ...
+   fun:RtlAllocateHeap
+   fun:alloc_thread_tls
+   fun:MODULE_DllThreadAttach
+}
+{
+   wine_secur32_ignore_fork_helper_leak
+   Memcheck:Leak
+   ...
+   fun:RtlAllocateHeap
+   fun:fork_helper
+   fun:SECUR32_initNTLMSP
+   fun:SECUR32_initializeProviders
+}
+{
+   # Probably expected
+   wine_secure32_ignore_funky_handshake
+   Memcheck:Cond
+   ...
+   fun:gnutls_handshake
+   fun:schan_imp_handshake
+   fun:schan_InitializeSecurityContextW
+   fun:schan_InitializeSecurityContextA
+   fun:InitializeSecurityContextA
+   fun:test_communication
+   fun:func_schannel
+}
+{
+   wine_bug_20548_ConnectNamedPipe
+   Memcheck:Leak
+   ...
+   fun:RtlAllocateHeap
+   fun:server_ioctl_file
+   fun:NtFsControlFile
+}
+{
+   wine_bug_20548_ReadFile
+   Memcheck:Leak
+   ...
+   fun:RtlAllocateHeap
+   fun:NtReadFile
+}
+{
+   wine_bug_20548_WriteFile
+   Memcheck:Leak
+   ...
+   fun:RtlAllocateHeap
+   fun:NtWriteFile
+}
+{
+   wine_bug_20548_WS_shutdown
+   Memcheck:Leak
+   ...
+   fun:RtlAllocateHeap
+   fun:WS2_register_async_shutdown
+   fun:WS_shutdown
+}
+{
+   todo_tls_leak_wine_bug_20552
+   Memcheck:Leak
+   ...
+   fun:RtlAllocateHeap
+   fun:alloc_thread_tls
+   fun:MODULE_DllThreadAttach
+   fun:start_thread
+}
+{
+   wine_bug_20654
+   Memcheck:Leak
+   ...
+   fun:RtlAllocateHeap
+   fun:get_full_path_helper
+   fun:RtlGetFullPathName_U
+}
+{
+   # This leak is expected - wine doesn't have a reliable way to free the default provider on exit.
+   wine_bug_20679
+   Memcheck:Leak
+   ...
+   fun:CRYPT_GetDefaultProvider
+}
+{
+   # Benign window title leak?
+   wine_bug_20692_wontfix
+   Memcheck:Leak
+   ...
+   fun:DEFWND_SetText*
+   ...
+   fun:CreateWindow*
+}
+{
+   expected_double_free_wintrust_tests_crypt
+   Memcheck:Addr4
+   fun:CryptCATAdminReleaseContext
+   ...
+   fun:func_crypt
+   fun:run_test
+   fun:main
+}
+{
+   expected_bad_pointer_wininet_tests_http
+   Memcheck:Addr1
+   fun:HttpOpenRequestA
+   fun:test_bogus_accept_types_array
+   fun:func_http
+   fun:run_test
+   fun:main
+}
+{
+   expected_bad_pointer_wininet_tests_http_2
+   Memcheck:Addr1
+   fun:convert_accept_types
+   ...
+   fun:func_http
+   fun:run_test
+   fun:main
+}
+{
+   expected_use_after_free_user32_tests_dialog
+   Memcheck:Addr4
+   fun:DIALOG_CreateIndirect
+   fun:DialogBoxParamA
+   fun:test_DialogBoxParamA
+   fun:func_dialog
+   fun:run_test
+   fun:main
+}
+{
+   expected_12345678_ptr_user32_tests_class
+   Memcheck:Addr2
+   fun:RtlImageNtHeader
+   fun:RtlImageDirectoryEntryToData
+   fun:find_entry
+   fun:LdrFindResource_U
+   ...
+   fun:WIN_CreateWindowEx
+   fun:CreateWindowExA
+   fun:check_instance_
+   fun:test_instances
+   fun:func_class
+   fun:run_test
+   fun:main
+}
+{
+   expected_advapi32_tests_crypt_badparams
+   Memcheck:Addr4
+   ...
+   fun:test_incorrect_api_usage
+   fun:func_crypt
+   fun:run_test
+   fun:main
+}
+{
+   # These aren't even in wine, but in a helper app wine runs
+   ntlm_auth_leaks
+   Memcheck:Leak
+   ...
+   obj:*/ntlm_auth
+}
+{
+   ntlm_auth_leaks
+   Memcheck:Leak
+   ...
+   fun:poptGetNextOpt
+   fun:main
+}
+{
+   expected_wininet_tests_http_test_bogus_accept_types_array
+   Memcheck:Addr1
+   fun:HttpOpenRequestA
+   fun:test_bogus_accept_types_array
+   fun:func_http
+   fun:run_test
+   fun:main
+}
+{
+   expected_advapi32_tests_crypt_see_wine_bug_20918
+   Memcheck:Addr4
+   fun:*
+   fun:test_incorrect_api_usage
+   fun:func_crypt
+   fun:run_test
+   fun:main
+}
+{
+   expected_crypt32_tests_crypt_see_wine_bug_20984
+   Memcheck:Leak
+   fun:notify_alloc
+   fun:RtlAllocateHeap
+   fun:new_object
+   fun:new_key
+   fun:import_public_key
+   fun:import_key
+   fun:RSAENH_CPImportKey
+   fun:CryptImportKey
+   fun:CRYPT_ImportRsaPublicKeyInfoEx
+   fun:CryptImportPublicKeyInfoEx
+   fun:CryptImportPublicKeyInfo
+   fun:CDecodeSignedMsg_VerifySignatureWithKey
+   fun:CDecodeSignedMsg_VerifySignature
+   fun:CDecodeMsg_Control
+   fun:CryptMsgControl
+   fun:CryptVerifyDetachedMessageSignature
+   fun:test_verify_detached_message_signature
+}
+# wine's kernel32/tests/heap.c does lots of crazy stuff,
+# suppress that whole file.
+{
+   expected_heap_tests
+   Memcheck:Addr1
+   ...
+   fun:func_heap
+}
+{
+   expected_heap_tests
+   Memcheck:Addr2
+   ...
+   fun:func_heap
+}
+{
+   expected_heap_tests
+   Memcheck:Cond
+   ...
+   fun:func_heap
+}
+{
+   expected_heap_tests
+   Memcheck:Free
+   ...
+   fun:func_heap
+}
+# Ignore errors in ATI drivers
+{
+   ati_binary_1
+   Memcheck:Addr4
+   obj:*/fglrx_dri.so
+}
+{
+   ati_binary_2
+   Memcheck:Addr8
+   obj:*/fglrx_dri.so
+}
+{
+   ati_binary_3
+   Memcheck:Param
+   ioctl(generic)
+   fun:ioctl
+   obj:*/fglrx_dri.so
+}
+{
+   ati_binary_4
+   Memcheck:Cond
+   obj:*/fglrx_dri.so
+}
+{
+   ati_binary_5
+   Memcheck:Addr8
+   obj:*/libGL.so.*.*
+}
+{
+   ati_binary_man_this_blows_can_ati_please_fix_this
+   Memcheck:Param
+   ioctl(generic)
+   fun:ioctl
+   obj:*
+}
+# Ignore errors in Nvidia drivers, since they get triggered in 
+# indirect ways by our tests.
+# FIXME: is this too permissive?
+{
+   nvidia_binary
+   Memcheck:Cond
+   obj:*/libnvidia-glcore.so.*
+}
+{
+   nvidia_binary_bad_addr1
+   Memcheck:Addr1
+   obj:*/libnvidia-glcore.so.*
+}
+{
+   nvidia_binary_bad_addr4
+   Memcheck:Addr4
+   obj:*/libnvidia-glcore.so.*
+}
+# Expected failures, the address is deliberately invalid, to show that the function traps such invalid addresses.
+{
+   crypt32_cert_expected_fail1
+   Memcheck:Addr1
+   fun:CRYPT_AsnDecodeSequence
+   fun:CRYPT_AsnDecodeCertSignedContent
+   fun:CryptDecodeObjectEx
+   fun:CryptVerifyCertificateSignatureEx
+   ...
+   fun:testCertSigs
+   fun:func_cert
+   fun:run_test
+   fun:main
+}
+{
+   crypt32_encoded_expected_fail1
+   Memcheck:Addr4
+   fun:CRYPT_AsnEncodeIssuingDistPoint
+   fun:CryptEncodeObjectEx
+   fun:test_encodeCRLIssuingDistPoint
+   fun:func_encode
+   fun:run_test
+   fun:main
+} 
+{
+   crypt32_encoded_expected_fail2
+   Memcheck:Leak
+   fun:notify_alloc
+   fun:RtlAllocateHeap
+   fun:HeapAlloc
+   fun:GlobalAlloc
+   fun:LocalAlloc
+   fun:CRYPT_DecodeEnsureSpace
+   fun:CRYPT_AsnDecodePKCSSignerInfo
+   fun:CryptDecodeObjectEx
+   fun:test_decodePKCSSignerInfo
+   fun:func_encode
+   fun:run_test
+   fun:main
+}
+{
+   crypt32_encoded_expected_fail3
+   Memcheck:Leak
+   fun:notify_alloc
+   fun:RtlAllocateHeap
+   fun:HeapAlloc
+   fun:GlobalAlloc
+   fun:LocalAlloc
+   fun:CRYPT_DecodeEnsureSpace
+   fun:CRYPT_AsnDecodeCMSSignerInfo
+   fun:CryptDecodeObjectEx
+   fun:test_decodeCMSSignerInfo
+   fun:func_encode
+   fun:run_test
+   fun:main
+}
+
+# crypt32 intentionally leaks the default provider on process shutdown
+# Expected leak to work around http://bugs.winehq.org/show_bug.cgi?id=11052
+# We want to ignore anything allocated by CRYPT_GetDefaultProvider but that
+# doesn't show up in the stack...
+{
+  ignore_crypt32_message__test_verify_message_signature_leak
+  Memcheck:Leak
+  ...
+  fun:CryptImportPublicKeyInfo
+  fun:CDecodeSignedMsg_VerifySignatureWithKey
+  fun:CDecodeSignedMsg_VerifySignature
+  fun:CDecodeMsg_Control
+  fun:CryptMsgControl
+  fun:CryptVerifyMessageSignature
+  fun:test_verify_message_signature
+}
+
+# Skip gecko leaks:
+
+{
+   load_gecko_leak
+   Memcheck:Addr4
+   obj:*
+   fun:init_xpcom
+   fun:load_gecko
+   fun:NSContainer_Create
+   fun:HTMLDocument_Create
+   fun:ClassFactory_CreateInstance
+}
+
+# zlib problems
+{
+   # Fixed in zlib-1.4.4.  See http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=577135
+   zlib_1_3_3_bug
+   Memcheck:Cond
+   fun:inflateReset2
+   fun:inflateInit2_
+}
+
+# A valid bug, but intentional, to test Windows behavior (checked with Vincent Povirk):
+# gdiplus/image
+{
+   gdiplus_image_invalid_read
+   Memcheck:Addr4
+   fun:GdipDisposeImage
+   fun:test_dispose
+   fun:func_image
+   fun:run_test
+   fun:main
+}
+
+# These leaks are (probably) caused by https://bugs.kde.org/show_bug.cgi?id=264785,
+# so suppress them until it is fixed.
+{
+  fake_crypt_leak1
+  Memcheck:Leak
+  fun:notify_alloc
+  fun:RtlAllocateHeap
+  fun:HeapAlloc
+  fun:GlobalAlloc
+  fun:LocalAlloc
+  fun:CRYPT_EncodeEnsureSpace
+  fun:CRYPT_AsnEncodeSequence
+  fun:CRYPT_EncodeDataContentInfoHeader
+  fun:CDataEncodeMsg_Update
+  fun:CryptMsgUpdate
+  fun:test_data_msg_update
+  fun:test_data_msg
+  fun:func_msg
+  fun:run_test
+  fun:main
+}
+
+{
+  fake_crypt_leak2
+  Memcheck:Leak
+  fun:notify_alloc
+  fun:RtlAllocateHeap
+  fun:CryptMemAlloc
+  fun:CDataEncodeMsg_Open
+  fun:CryptMsgOpenToEncode
+  fun:test_data_msg_update
+  fun:test_data_msg
+  fun:func_msg
+  fun:run_test
+  fun:main
+}
+
+{
+  fake_crypt_leak3
+  Memcheck:Leak
+  fun:notify_alloc
+  fun:RtlAllocateHeap
+  fun:CryptMemAlloc
+  fun:init_oid_info
+  fun:crypt_oid_init
+  fun:DllMain
+  fun:__wine_spec_dll_entry
+  obj:*/ntdll.dll.so
+  fun:MODULE_InitDLL
+  fun:process_attach
+  fun:process_attach
+  fun:attach_process_dlls
+  obj:*/libwine.so.1.0
+}
+
+{
+  fake_crypt_leak4
+  Memcheck:Leak
+  fun:notify_alloc
+  fun:RtlAllocateHeap
+  fun:CryptMemAlloc
+  fun:init_oid_info
+  fun:crypt_oid_init
+  fun:DllMain
+  fun:__wine_spec_dll_entry
+  obj:*/ntdll.dll.so
+  fun:MODULE_InitDLL
+  fun:process_attach
+  fun:process_attach
+  fun:attach_process_dlls
+  obj:*/libwine.so.1.0
+}
+
+# Gstreamer is really leaky. These cut down the warnings in dlls/qedit from 415 to 16 (!)
+# FIXME: file gstreamer bug
+{
+   gstreamer_calloc
+   Memcheck:Leak
+   fun:calloc
+   fun:g_malloc0
+   ...
+}
+
+{
+   gstreamer_malloc
+   Memcheck:Leak
+   fun:malloc
+   fun:g_malloc
+   ...
+}
+
+{
+   gstreamer_realloc
+   Memcheck:Leak
+   ...
+   fun:realloc
+   fun:g_realloc
+   ...
+}
+
+{
+   gstreamer_calloc2
+   Memcheck:Leak
+   fun:calloc
+   ...
+   obj:*/libgstreamer-*
+}
+
+{   
+   glib_memalign
+   Memcheck:Leak
+   fun:memalign
+   fun:posix_memalign
+   obj:/lib/libglib-*
+}   
+
+# See http://bugs.winehq.org/show_bug.cgi?id=26045
+{
+   comctl32_bug_26045
+   Memcheck:Addr4
+   fun:is_valid
+   ...
+   fun:func_imagelist
+   fun:run_test
+   fun:main
+}
+# invalid instance handle used on purpose in comctl32/tests/toolbar.c
+{
+   comctl32_addstring_intentional_bad_handle
+   Memcheck:Addr2
+   fun:RtlImageNtHeader
+   ...
+   fun:TOOLBAR_AddStringW
+   ...
+   fun:test_add_string
+   fun:func_toolbar
+   fun:run_test
+   fun:main
+}
+# invalid dates used on purpose in comctl32/tests/monthcal.c's test_today()
+{
+   comctl32_tests_monthcal__test_today
+   Memcheck:Cond
+   fun:CompareFileTime
+   fun:MONTHCAL_CompareSystemTime
+   fun:MONTHCAL_CompareMonths
+   ...
+   fun:test_today
+   fun:func_monthcal
+   fun:run_test
+   fun:main
+}
+# invalid coordinate in comctl32/tests/monthcal.c's test_hittest??
+{
+   wine_bug_28741
+   Memcheck:Cond
+   ...
+   fun:FileTimeToSystemTime
+   ...
+   fun:test_hittest
+   fun:func_monthcal
+   fun:run_test
+   fun:main
+}
+
+# http://bugs.winehq.org/show_bug.cgi?id=26051
+{  
+   wintrust_bug_26051_part1
+   Memcheck:Leak
+   fun:notify_alloc
+   fun:RtlAllocateHeap
+   fun:WINTRUST_Alloc
+   fun:SOFTPUB_GetSIP
+   fun:SOFTPUB_LoadFileMessage
+   fun:SoftpubLoadMessage
+   fun:testObjTrust
+   fun:test_provider_funcs
+   fun:func_softpub
+   fun:run_test
+   fun:main
+}
+
+{
+   wintrust_bug_26051_part2
+   Memcheck:Leak
+   fun:notify_alloc
+   fun:RtlAllocateHeap
+   fun:WINTRUST_Alloc
+   fun:WINTRUST_AddSgnr
+   fun:testCertTrust
+   fun:test_provider_funcs
+   fun:func_softpub
+   fun:run_test
+   fun:main
+}
+
+{
+   wintrust_bug_26051_part3
+   Memcheck:Leak
+   fun:notify_alloc
+   fun:RtlAllocateHeap
+   fun:WINTRUST_Alloc
+   fun:SOFTPUB_GetMessageFromFile
+   fun:SOFTPUB_LoadFileMessage
+   fun:SoftpubLoadMessage
+   fun:testObjTrust
+   fun:test_provider_funcs
+   fun:func_softpub
+   fun:run_test
+   fun:main
+}
+
+{
+   wintrust_bug_26051_part4
+   Memcheck:Leak
+   fun:notify_alloc
+   fun:RtlAllocateHeap
+   fun:WINTRUST_Alloc
+   fun:WINTRUST_AllocateProviderData
+   fun:WINTRUST_DefaultVerify
+   fun:WinVerifyTrust
+   fun:test_wintrust
+   fun:func_softpub
+   fun:run_test
+   fun:main
+}
+
+{
+   wintrust_bug_26051_part5
+   Memcheck:Leak
+   fun:notify_alloc
+   fun:RtlReAllocateHeap
+   fun:WINTRUST_ReAlloc
+   fun:WINTRUST_AddSgnr
+   fun:test_utils
+   fun:test_provider_funcs
+   fun:func_softpub
+   fun:run_test
+   fun:main
+}
+
+# See http://bugs.winehq.org/show_bug.cgi?id=23358 et al
+{
+   user32_dib_exception_handler
+   Memcheck:Addr4
+   fun:StretchDIBits
+   fun:BITMAP_Load
+   fun:LoadImageW
+   fun:LoadImageA
+   fun:test_LoadImageFile
+   fun:test_LoadImage
+   fun:func_cursoricon
+   fun:run_test
+   fun:main
+}
+
+# See http://bugs.winehq.org/show_bug.cgi?id=26102
+{
+   pdh_bug_26102
+   Memcheck:Addr4
+   fun:PdhCloseQuery
+   ...
+   fun:func_pdh
+   fun:run_test
+   fun:main
+}
+
+# See http://bugs.winehq.org/show_bug.cgi?id=26098#c1
+{
+   rsaenh_crypthashdata
+   Memcheck:Addr4
+   fun:CryptHashData
+   fun:test_hashes
+   fun:func_rsaenh
+   fun:run_test
+   fun:main
+}
+
+# See http://bugs.winehq.org/show_bug.cgi?id=26098#c1
+{
+   rsaenh_cryptdestroyhash
+   Memcheck:Addr4
+   fun:CryptDestroyHash
+   fun:test_hashes
+   fun:func_rsaenh
+   fun:run_test
+   fun:main
+}
+
+# See http://bugs.winehq.org/show_bug.cgi?id=26098#c1
+{
+   rsaenh_cryptcreatehash_leak
+   Memcheck:Leak
+   fun:notify_alloc
+   fun:RtlAllocateHeap
+   fun:HeapAlloc
+   fun:GlobalAlloc
+   fun:LocalAlloc
+   fun:CryptCreateHash
+   fun:test_hashes
+   fun:func_rsaenh
+   fun:run_test
+   fun:main
+}
+
+# See http://bugs.winehq.org/show_bug.cgi?id=26098#c1
+{
+   rsaenh_cryptcreatehash_leak2
+   Memcheck:Leak
+   fun:notify_alloc
+   fun:RtlAllocateHeap
+   obj:*
+   obj:*
+   fun:CryptCreateHash
+   fun:test_hashes
+   fun:func_rsaenh
+   fun:run_test
+   fun:main
+}
+
+# See http://bugs.winehq.org/show_bug.cgi?id=26111
+{
+   ntdll_info_invalid_read
+   Memcheck:Addr1
+   fun:virtual_check_buffer_for_write
+   fun:NtReadVirtualMemory
+   fun:test_readvirtualmemory
+   fun:func_info
+   fun:run_test
+   fun:main
+}
+
+# Shows up in mmdevapi tests
+{
+   libc_getaddrinfo_leak
+   Memcheck:Leak
+   fun:malloc
+   obj:/lib/libc-2.11.2.so
+   fun:getaddrinfo
+   obj:*/libasyncns.so.0.1.0
+   fun:start_thread
+   fun:clone
+}
+
+# See http://bugs.winehq.org/show_bug.cgi?id=26121
+{
+   msacm_invalid_read
+   Memcheck:Addr4
+   fun:MSACM_GetObj
+   fun:MSACM_GetDriver
+   fun:acmDriverClose
+   fun:DriverEnumProc
+   fun:acmDriverEnum
+   ...
+   fun:func_msacm
+   fun:run_test
+   fun:main
+}
+{
+   ignore_wine_msxml3_expected_null
+   Memcheck:Addr1
+   ...
+   fun:lstrlenA
+   fun:test_mxwriter_startendelement_batch
+   fun:test_mxwriter_startendelement
+   fun:func_saxreader
+   fun:run_test
+   fun:main
+}
+# See http://bugs.winehq.org/show_bug.cgi?id=26071
+{
+   urlmon_lstrlen_null_1
+   Memcheck:Addr1
+   ...
+   fun:lstrlenA
+   fun:test_IUri_GetPropertyLength
+   fun:func_uri
+   fun:run_test
+   fun:main
+}
+
+# See http://bugs.winehq.org/show_bug.cgi?id=26071
+{
+   urlmon_lstrlen_null_2
+   Memcheck:Addr1
+   ...
+   fun:lstrlenA
+   fun:test_IUriBuilder_GetPath
+   fun:test_IUriBuilder
+   fun:func_uri
+   fun:run_test
+   fun:main
+}
+
+# See http://bugs.winehq.org/show_bug.cgi?id=26103
+# test_deletecontext
+{
+   opengl32_tests_test_deletecontext_double_free
+   Memcheck:Addr4
+   fun:wglDeleteContext
+   ...
+   fun:func_opengl
+   fun:run_test
+   fun:main
+}
+# Related to http://bugs.winehq.org/show_bug.cgi?id=26103
+# test_destroy
+{
+   opengl32_tests_test_deletecontext_hmm
+   Memcheck:Cond
+   fun:flush_gl_drawable
+   fun:X11DRV_ExtEscape
+   fun:xrenderdrv_ExtEscape
+   fun:ExtEscape
+   fun:X11DRV_wglFinish
+   fun:wine_glFinish
+   ...
+   fun:func_opengl
+   fun:run_test
+   fun:main
+}
+# Probably benign
+{
+   ignore_wine_ddraw__test_DirectDrawEnumerateA_invalid
+   Memcheck:Jump
+   ...
+   fun:func_ddrawmodes
+   fun:run_test
+   fun:main
+}
+# fontconfig invalid reads, debian bug 635609
+{
+   fontconfig1
+   Memcheck:Addr4
+   obj:*/libfontconfig.so.1.4.4
+}
+
+# libX11
+{
+   libxcb_writv_param
+   Memcheck:Param
+   writev(vector[...])
+   fun:writev
+   obj:*/libxcb.so.1.1.0
+   obj:*
+}
+# ubuntu 11.10 has these all over the place, all with the clue
+# Uninitialised value was created by a stack allocation
+#   at 0x5144D5F: set_wm_hints (window.c:1128)
+# (without useful backtrace, possibly due to a gcc bug)
+# Shame this has to be so wide!
+{
+   strange_ubuntu_11_10_set_wm_hints
+   Memcheck:Param
+   writev(vector[...])
+   fun:writev
+   obj:*
+}
+
+# http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=642387
+{
+   xgetvisualinfo_leak
+   Memcheck:Leak
+   fun:malloc
+   fun:XGetVisualInfo
+   obj:*
+}
+{
+   # See http://www.winehq.org/pipermail/wine-patches/2011-October/107830.html
+   opaque_alsa_blobs
+   Memcheck:Param
+   ioctl(generic)
+   fun:ioctl
+   fun:snd_ctl_pcm_info
+   fun:alsa_enum_devices
+}

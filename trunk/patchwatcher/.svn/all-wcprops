@@ -1,0 +1,131 @@
+K 25
+svn:wc:ra_dav:version-url
+V 36
+/svn/!svn/ver/866/trunk/patchwatcher
+END
+get-patches2.pl
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/198/trunk/patchwatcher/get-patches2.pl
+END
+dashboard.pl
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/207/trunk/patchwatcher/dashboard.pl
+END
+trim-build-log.pl
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/122/trunk/patchwatcher/trim-build-log.pl
+END
+get-dll.pl
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/177/trunk/patchwatcher/get-dll.pl
+END
+master.sh
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/222/trunk/patchwatcher/master.sh
+END
+pwconfig.sh.sample
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/190/trunk/patchwatcher/pwconfig.sh.sample
+END
+readme.txt
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/214/trunk/patchwatcher/readme.txt
+END
+alarm.c
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/866/trunk/patchwatcher/alarm.c
+END
+libpatchwatcher.sh
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/227/trunk/patchwatcher/libpatchwatcher.sh
+END
+get-patches.pl
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/160/trunk/patchwatcher/get-patches.pl
+END
+install-pkgs.sh
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/213/trunk/patchwatcher/install-pkgs.sh
+END
+blacklist.sh
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/216/trunk/patchwatcher/blacklist.sh
+END
+winehq.css
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/166/trunk/patchwatcher/winehq.css
+END
+dashboard2.pl
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/207/trunk/patchwatcher/dashboard2.pl
+END
+wine-slave.sh
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/228/trunk/patchwatcher/wine-slave.sh
+END
+bldiff
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/180/trunk/patchwatcher/bldiff
+END
+blacklist.txt
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/231/trunk/patchwatcher/blacklist.txt
+END
+patchwatcher.sh
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/183/trunk/patchwatcher/patchwatcher.sh
+END
+valgrind-annotate.pl
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/157/trunk/patchwatcher/valgrind-annotate.pl
+END
+libpwdemo.sh
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/189/trunk/patchwatcher/libpwdemo.sh
+END
+error-regexp.txt
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/206/trunk/patchwatcher/error-regexp.txt
+END

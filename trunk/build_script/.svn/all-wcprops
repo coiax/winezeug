@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/svn/!svn/ver/2422/trunk/build_script
+END
+daily.sh
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/2422/trunk/build_script/daily.sh
+END
+auto-update-winetest.sh
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/1424/trunk/build_script/auto-update-winetest.sh
+END
+daily
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/!svn/ver/982/trunk/build_script/daily
+END
